@@ -58,18 +58,10 @@ The output of `validationObj` would be:
 
 ```js
 {
-	number: {
-		isValid: true,
-		info: 'visa'
-	},
-	cvn: {
-		isValid: true,
-		info: 'norm'
-	},
-	date: {
-		isValid: true,
-		info: 'Not Expired'
-	}
+	isValid: true,
+	cardType: 'visa',
+	cvnType: 'norm',
+	expired: false
 }
 ```
 
@@ -88,22 +80,16 @@ Your output would then be:
 
 ```js
 {
-	number: {
-		isValid: true,
-		info: 'visa'
-	},
-	cvn: {
+	{
 		isValid: false,
-		info: 'Invalid CVN Code'
-	},
-	date: {
-		isValid: true,
-		info: 'Not Expired'
+		cardType: 'visa',
+		cvnType: 'Invalid CVN Code',
+		expired: false
 	}
 }
 ```
 
-Notice the `cvn` returned falsey because no information was provided. This is true for the other two as well.
+Notice the `cvn` made the validation returned falsey, since it was not provided
 
 ## Or, send in single data pieces
 
@@ -119,5 +105,5 @@ const validCVN = simpleCard('333');
 const validCVN = simpleCard('4444');
 // Output: {isValid: true, info: 'amex'}
 const validDate = simpleCard('08/20');
-// Output: {isValid: true, info: 'Not Expired'}
+// Output: {isValid: true, info: false}
 ```
