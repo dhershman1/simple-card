@@ -24,29 +24,3 @@ export const validateType = x => {
 
 	return 'validCVN';
 };
-
-const passCounter = (obj, count) => {
-	if (count < 3) {
-		return obj;
-	}
-
-	return false;
-};
-
-export const checkObj = x => {
-	const results = {};
-	let noneCounter = 0;
-	let prop = '';
-
-	for (prop in x) {
-		if (!x[prop]) {
-			noneCounter++;
-			results[prop] = 'None';
-			continue;
-		}
-
-		results[prop] = x[prop];
-	}
-
-	return passCounter(results, noneCounter);
-};

@@ -5,4 +5,117 @@
 
 A smaller surogate to my [simply_valid](https://github.com/dhershman1/simply_valid) module
 
-A simple validation system for your credit card fields can provide you some extra data on return
+A simple validation system for your credit card fields can provide you some extra data on return, do note that this only validates that a cards format is valid not that the card itself is valid for payment.
+
+## Changelog
+
+You can view the changelog here: https://github.com/dhershman1/simple-card/blob/master/changelog.md
+
+## How To
+
+Simple Card is a plug and play module, `import`, `require`, or even `script` tag it in
+
+Standard JS
+```js
+import simpleCard from 'simple-card';
+
+simpleCard(data);
+```
+
+CommonJS
+```js
+const simpleCard = require('simple-card');
+
+simpleCard(data);
+```
+
+Browser
+```html
+<script src="/path/to/simple-card.umd.js"></script>
+<script>
+	simpleCard(data);
+</script>
+```
+
+## Usage
+
+The parameters of Simple Card are very flexible.
+
+### Validate Card Object
+
+```js
+import simpleCard from 'simple-card';
+
+const validationObj = simpleCard({
+	number: '4111111111111111',
+	cvn: '342',
+	expire: '09/20'
+});
+
+```
+
+The output of `validationObj` would be:
+
+```js
+{
+	number: {
+		isValid: true,
+		info: 'visa'
+	},
+	cvn: {
+		isValid: true,
+		info: 'norm'
+	},
+	date: {
+		isValid: true,
+		info: 'Not Expired'
+	}
+}
+```
+
+You can also send in partial objects to only validate certain pieces:
+
+```js
+import simpleCard from 'simple-card';
+
+const validationObj = simpleCard({
+	number: '4111111111111111',
+	expire: '09/20'
+});
+```
+
+Your output would then be:
+
+```js
+{
+	number: {
+		isValid: true,
+		info: 'visa'
+	},
+	cvn: {
+		isValid: false,
+		info: 'Invalid CVN Code'
+	},
+	date: {
+		isValid: true,
+		info: 'Not Expired'
+	}
+}
+```
+
+Notice the `cvn` returned falsey because no information was provided. This is true for the other two as well.
+
+## Or, send in single data pieces
+
+You can also send in single string data pieces so just a `card number`, `cvn`, or `date`
+
+```js
+import simpleCard from 'simple-card';
+
+const validNumber = simpleCard('4111111111111111');
+// Output: {isValid: true, info: 'visa'}
+const validCVN = simpleCard('333');
+// Output: {isValid: true, info: 'norm'}
+const validDate = simpleCard('08/20');
+// Output: {isValid: true, info: 'Not Expired'}
+```
