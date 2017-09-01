@@ -2,22 +2,22 @@ const test = require('tape');
 const simpleCard = require('../../dist/simple-card.umd.js');
 const validData = {
 	visaCard: {
-		number: '4111111111111111',
+		number: '4122027811098688',
 		cvn: '342',
 		expire: '09/20'
 	},
 	discoverCard: {
-		number: '6111111111111111',
+		number: '6011906326377506',
 		cvn: '566',
 		expire: '07/21'
 	},
 	masterCard: {
-		number: '5511111111111111',
+		number: '5387109830289055',
 		cvn: '896',
 		expire: '12/20'
 	},
 	amex: {
-		number: '341111111111111',
+		number: '341258393919545',
 		cvn: '2271',
 		expire: '01/19'
 	}
@@ -25,7 +25,7 @@ const validData = {
 
 test('Test Partial Object No Date', t => {
 	const result = simpleCard({
-		number: '5511111111111111',
+		number: '5387109830289055',
 		cvn: '896'
 	});
 
@@ -51,7 +51,7 @@ test('Test Partial Object No Number', t => {
 
 test('Test Partial Object No CVN', t => {
 	const result = simpleCard({
-		number: '5511111111111111',
+		number: '5387109830289055',
 		expire: '01/19'
 	});
 

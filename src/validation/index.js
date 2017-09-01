@@ -1,5 +1,5 @@
 
-import {normalizeDate, organizeResults} from '../helpers/index';
+import {luhnChk, normalizeDate, organizeResults} from '../helpers/index';
 
 const validDate = expire => {
 	if (!expire) {
@@ -20,7 +20,7 @@ const validDate = expire => {
 
 const validNumber = number => {
 	const cards = {
-		visa: /^4[0-9]{15}$/,
+		visa: /^4[0-9]{13,15}$/,
 		discover: /^6[0-9]{15}$/,
 		master: /^5[1-5][0-9]{14}$/,
 		amex: /^3(4|7)[0-9]{13}$/
@@ -30,7 +30,7 @@ const validNumber = number => {
 	for (prop in cards) {
 		if (cards[prop].test(number)) {
 			return {
-				isValid: true,
+				isValid: Boolean(luhnChk(number)),
 				info: prop
 			};
 		}

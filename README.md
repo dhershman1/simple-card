@@ -5,7 +5,7 @@
 
 A smaller surogate to my [simply_valid](https://github.com/dhershman1/simply_valid) module
 
-A simple validation system for your credit card fields can provide you some extra data on return, do note that this only validates that a cards format is valid not that the card itself is valid for payment.
+A simple credit card system that runs validation for dates, cvn, and card numbers. Uses the Luhn Algorithm for card number validation
 
 ## Changelog
 
@@ -47,7 +47,7 @@ The parameters of Simple Card are very flexible.
 import simpleCard from 'simple-card';
 
 const validationObj = simpleCard({
-	number: '4111111111111111',
+	number: '4122027811098688',
 	cvn: '342',
 	expire: '09/20'
 });
@@ -71,7 +71,7 @@ You can also send in partial objects to only validate certain pieces:
 import simpleCard from 'simple-card';
 
 const validationObj = simpleCard({
-	number: '4111111111111111',
+	number: '4122027811098688',
 	expire: '09/20'
 });
 ```
@@ -96,7 +96,7 @@ You can also send in single string data pieces so just a `card number`, `cvn`, o
 ```js
 import simpleCard from 'simple-card';
 
-const validNumber = simpleCard('4111111111111111');
+const validNumber = simpleCard('4122027811098688');
 // Output: {isValid: true, info: 'visa'}
 const validCVN = simpleCard('333');
 // Output: {isValid: true, info: 'norm'}

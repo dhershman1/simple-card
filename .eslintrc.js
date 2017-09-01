@@ -127,13 +127,13 @@ module.exports = {
 		'max-params': ['error', {
 			'max': 3
 		}],
-		'multiline-ternary': ['error'],
+		'multiline-ternary': ['error', 'never'],
 		'new-cap': ['error'],
 		'new-parens': ['error'],
 		'newline-after-var': ['error'],
 		'newline-before-return': ['error'],
 		'no-array-constructor': ['error'],
-		'no-bitwise': ['error'],
+		'no-bitwise': ['error', {'allow': ['^=']}],
 		'no-inline-comments': ['error'],
 		'no-lonely-if': ['error'],
 		'no-mixed-operators': ['error'],
