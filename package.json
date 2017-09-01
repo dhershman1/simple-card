@@ -8,7 +8,8 @@
   },
   "scripts": {
     "prepublish": "rollup -c",
-    "test": "rollup -c && tape src/tests/tests.js | tap-spec"
+    "test": "rollup -c && tape src/tests/tests.js | tap-spec",
+    "lint": "eslint src/index.js && eslint src/helpers/index.js && eslint src/validation/index.js"
   },
   "repository": {
     "type": "git",
