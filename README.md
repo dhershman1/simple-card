@@ -116,6 +116,8 @@ const validNumber = simpleCard('4111111111111111');
 // Output: {isValid: true, info: 'visa'}
 const validCVN = simpleCard('333');
 // Output: {isValid: true, info: 'norm'}
+const validCVN = simpleCard('4444');
+// Output: {isValid: true, info: 'amex'}
 const validDate = simpleCard('08/20');
 // Output: {isValid: true, info: 'Not Expired'}
 ```
