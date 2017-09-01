@@ -30,9 +30,9 @@ test('Test Partial Object No Date', t => {
 	});
 
 	t.ok(result);
-	t.notOk(result.date.isValid, 'Date is not valid since one was not provided');
-	t.ok(result.number.isValid, 'Card Number is valid');
-	t.ok(result.cvn.isValid, 'CVN is valid');
+	t.notOk(result.isValid, 'Date is not valid since one was not provided');
+	t.equal(result.cardType, 'master', 'Validated as a Master card');
+	t.equal(result.cvnType, 'norm', 'Validated with a normal cvn');
 	t.end();
 });
 
@@ -43,9 +43,9 @@ test('Test Partial Object No Number', t => {
 	});
 
 	t.ok(result);
-	t.ok(result.date.isValid, 'Date is valid');
-	t.notOk(result.number.isValid, 'Card Number is invalid');
-	t.ok(result.cvn.isValid, 'CVN is valid');
+	t.notOk(result.isValid, 'Invalid Since not all data was provided');
+	t.equal(result.cvnType, 'norm', 'Validated with a normal cvn');
+	t.notOk(result.expired, 'Validated as Not Expired');
 	t.end();
 });
 
@@ -56,9 +56,9 @@ test('Test Partial Object No CVN', t => {
 	});
 
 	t.ok(result);
-	t.ok(result.date.isValid, 'Date is valid');
-	t.ok(result.number.isValid, 'Card Number is valid');
-	t.notOk(result.cvn.isValid, 'CVN is invalid');
+	t.notOk(result.isValid, 'Invalid Since not all data was provided');
+	t.equal(result.cardType, 'master', 'Validated as a Master card');
+	t.notOk(result.expired, 'Validated as Not Expired');
 	t.end();
 });
 
@@ -66,12 +66,10 @@ test('Test visa setup', t => {
 	const result = simpleCard(validData.visaCard);
 
 	t.ok(result, 'Results came back');
-	t.ok(result.number.isValid, 'Card Number Valid');
-	t.ok(result.cvn.isValid, 'Card CVN Valid');
-	t.ok(result.date.isValid, 'Card Date Valid');
-	t.equal(result.number.info, 'visa', 'Validated as a Visa card');
-	t.equal(result.cvn.info, 'norm', 'Validated with a normal cvn');
-	t.equal(result.date.info, 'Not Expired', 'Validated as Not Expired');
+	t.ok(result.isValid, 'Card Number Valid');
+	t.equal(result.cardType, 'visa', 'Validated as a Visa card');
+	t.equal(result.cvnType, 'norm', 'Validated with a normal cvn');
+	t.notOk(result.expired, 'Validated as Not Expired');
 	t.end();
 });
 
@@ -79,12 +77,10 @@ test('Test discover setup', t => {
 	const result = simpleCard(validData.discoverCard);
 
 	t.ok(result, 'Results came back');
-	t.ok(result.number.isValid, 'Card Number Valid');
-	t.ok(result.cvn.isValid, 'Card CVN Valid');
-	t.ok(result.date.isValid, 'Card Date Valid');
-	t.equal(result.number.info, 'discover', 'Validated as a Discover card');
-	t.equal(result.cvn.info, 'norm', 'Validated with a normal cvn');
-	t.equal(result.date.info, 'Not Expired', 'Validated as Not Expired');
+	t.ok(result.isValid, 'Card Number Valid');
+	t.equal(result.cardType, 'discover', 'Validated as a Discover card');
+	t.equal(result.cvnType, 'norm', 'Validated with a normal cvn');
+	t.notOk(result.expired, 'Validated as Not Expired');
 	t.end();
 });
 
@@ -92,12 +88,10 @@ test('Test master card setup', t => {
 	const result = simpleCard(validData.masterCard);
 
 	t.ok(result, 'Results came back');
-	t.ok(result.number.isValid, 'Card Number Valid');
-	t.ok(result.cvn.isValid, 'Card CVN Valid');
-	t.ok(result.date.isValid, 'Card Date Valid');
-	t.equal(result.number.info, 'master', 'Validated as a Master card');
-	t.equal(result.cvn.info, 'norm', 'Validated with a normal cvn');
-	t.equal(result.date.info, 'Not Expired', 'Validated as Not Expired');
+	t.ok(result.isValid, 'Card Number Valid');
+	t.equal(result.cardType, 'master', 'Validated as a Master card');
+	t.equal(result.cvnType, 'norm', 'Validated with a normal cvn');
+	t.notOk(result.expired, 'Validated as Not Expired');
 	t.end();
 });
 
@@ -105,12 +99,10 @@ test('Test discover setup', t => {
 	const result = simpleCard(validData.amex);
 
 	t.ok(result, 'Results came back');
-	t.ok(result.number.isValid, 'Card Number Valid');
-	t.ok(result.cvn.isValid, 'Card Amex CVN Valid');
-	t.ok(result.date.isValid, 'Card Date Valid');
-	t.equal(result.number.info, 'amex', 'Validated as a Amex card');
-	t.equal(result.cvn.info, 'amex', 'Validated with a Amex cvn');
-	t.equal(result.date.info, 'Not Expired', 'Validated as Not Expired');
+	t.ok(result.isValid, 'Card Number Valid');
+	t.equal(result.cardType, 'amex', 'Validated as a Amex card');
+	t.equal(result.cvnType, 'amex', 'Validated with a Amex cvn');
+	t.notOk(result.expired, 'Validated as Not Expired');
 	t.end();
 });
 
@@ -173,7 +165,7 @@ test('Test Date validation', t => {
 
 	t.ok(results);
 	t.ok(results.isValid, 'Is a valid date');
-	t.equal(results.info, 'Not Expired', 'Info returned as Not Expired');
+	t.notOk(results.info, 'Info returned as Not Expired');
 	t.end();
 });
 
@@ -200,6 +192,6 @@ test('Test Expired Date', t => {
 
 	t.ok(results);
 	t.notOk(results.isValid, 'This is an Expired Date');
-	t.equal(results.info, 'Expired', 'Info returned with expired message');
+	t.ok(results.info, 'Info returned expired');
 	t.end();
 });

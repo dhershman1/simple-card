@@ -1,5 +1,5 @@
 
-import {normalizeDate} from '../helpers/index';
+import {normalizeDate, organizeResults} from '../helpers/index';
 
 const validDate = expire => {
 	if (!expire) {
@@ -10,17 +10,11 @@ const validDate = expire => {
 	}
 	const currDate = new Date();
 	const expireDate = new Date(normalizeDate(expire));
-
-	if (currDate < expireDate) {
-		return {
-			isValid: true,
-			info: 'Not Expired'
-		};
-	}
+	const isExpired = currDate > expireDate;
 
 	return {
-		isValid: false,
-		info: 'Expired'
+		isValid: !isExpired,
+		info: isExpired
 	};
 };
 
@@ -84,11 +78,12 @@ export default cardObj => {
 	}
 
 	const {number, cvn, expire} = cardObj;
-
-	return {
-		number: validNumber(number),
-		cvn: validCVN(cvn),
-		date: validDate(expire)
+	const results = {
+		cardType: validNumber(number),
+		cvnType: validCVN(cvn),
+		expired: validDate(expire)
 	};
+
+	return organizeResults(results);
 
 };

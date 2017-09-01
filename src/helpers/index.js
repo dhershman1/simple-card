@@ -24,3 +24,23 @@ export const validateType = x => {
 
 	return 'validCVN';
 };
+
+export const organizeResults = obj => {
+	const results = {
+		isValid: true
+	};
+	let count = 0;
+	let prop = '';
+
+	for (prop in obj) {
+		if (!obj[prop].isValid) {
+			count++;
+		}
+
+		results[prop] = obj[prop].info;
+	}
+
+	results.isValid = count === 0;
+
+	return results;
+};
