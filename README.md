@@ -80,12 +80,10 @@ Your output would then be:
 
 ```js
 {
-	{
-		isValid: false,
-		cardType: 'visa',
-		cvnType: 'Invalid CVN Code',
-		expired: false
-	}
+	isValid: false,
+	cardType: 'visa',
+	cvnType: 'Invalid CVN Code',
+	expired: false
 }
 ```
 
