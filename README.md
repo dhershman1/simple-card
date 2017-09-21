@@ -37,6 +37,22 @@ Browser
 </script>
 ```
 
+## Debug Mode
+
+Simple Card now has a debug mode that you can pass in a boolean as the 2nd argument to make simple-card work in debug module
+
+```js
+import simpleCard from 'simple-card';
+
+const validationObj = simpleCard({
+	number: '4111111111111111',
+	cvn: '333',
+	expire: '09/20'
+}, true);
+
+// Output => {isValid: true, cardType: 'visa', cvnType: 'norm', expired: false}
+```
+
 ## Usage
 
 The parameters of Simple Card are very flexible.

@@ -18,6 +18,31 @@ const validDate = expire => {
 	};
 };
 
+const debugValidNum = number => {
+	const cards = {
+		visa: /^4[0-9]{13,15}$/,
+		discover: /^6[0-9]{15}$/,
+		master: /^5[1-5][0-9]{14}$/,
+		amex: /^3(4|7)[0-9]{13}$/
+	};
+	let prop = '';
+
+	for (prop in cards) {
+		if (cards[prop].test(number)) {
+			return {
+				isValid: true,
+				info: prop
+			};
+		}
+		continue;
+	}
+
+	return {
+		isValid: false,
+		info: 'Invalid Card Number'
+	};
+};
+
 const validNumber = number => {
 	const cards = {
 		visa: /^4[0-9]{13,15}$/,
@@ -25,6 +50,7 @@ const validNumber = number => {
 		master: /^5[1-5][0-9]{14}$/,
 		amex: /^3(4|7)[0-9]{13}$/
 	};
+
 	let prop = '';
 
 	for (prop in cards) {
@@ -67,7 +93,7 @@ const validCVN = cvn => {
 	};
 };
 
-export default cardObj => {
+export default (cardObj, debug) => {
 
 	if (!cardObj) {
 		return {
@@ -79,7 +105,7 @@ export default cardObj => {
 
 	const {number, cvn, expire} = cardObj;
 	const results = {
-		cardType: validNumber(number),
+		cardType: debug ? debugValidNum(number) : validNumber(number),
 		cvnType: validCVN(cvn),
 		expired: validDate(expire)
 	};
