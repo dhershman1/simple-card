@@ -8,6 +8,18 @@ export const isObject = x => Object.prototype.toString.call(x) === '[object Obje
 
 export const normalizeDate = date => date.replace('/', '/1/');
 
+export const matchesCardType = (cvn, cardType) => {
+	if (cvn.length === 4 && cardType && cardType.info !== 'amex') {
+		return false;
+	}
+
+	if (cvn.length === 3 && cardType && cardType.info === 'amex') {
+		return false;
+	}
+
+	return true;
+};
+
 export const luhnChk = value => {
 	const numArr = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
 	let len = value.length;

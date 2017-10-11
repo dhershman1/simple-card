@@ -1,5 +1,5 @@
 
-import {luhnChk, normalizeDate, organizeResults} from '../helpers/index';
+import { luhnChk, matchesCardType, normalizeDate, organizeResults } from '../helpers/index';
 
 const validDate = expire => {
 	if (!expire) {
@@ -69,7 +69,7 @@ const validNumber = number => {
 	};
 };
 
-const validCVN = cvn => {
+const validCVN = (cvn, cardType) => {
 	const containsNumbers = (/[0-9]/).test(cvn);
 	const cvns = {
 		norm: containsNumbers && cvn.length === 3,
@@ -78,7 +78,7 @@ const validCVN = cvn => {
 	let prop = '';
 
 	for (prop in cvns) {
-		if (cvns[prop]) {
+		if (cvns[prop] && matchesCardType(cvn, cardType)) {
 			return {
 				isValid: true,
 				info: prop
@@ -103,13 +103,15 @@ export default (cardObj, debug) => {
 		};
 	}
 
-	const {number, cvn, expire} = cardObj;
-	const results = {
-		cardType: debug ? debugValidNum(number) : validNumber(number),
-		cvnType: validCVN(cvn),
-		expired: validDate(expire)
-	};
+	const { number, cvn, expire } = cardObj;
+	const cardType = debug ? debugValidNum(number) : validNumber(number);
+	const cvnType = validCVN(cvn, cardType);
+	const expired = validDate(expire);
 
-	return organizeResults(results);
+	return organizeResults({
+		cardType,
+		cvnType,
+		expired
+	});
 
 };

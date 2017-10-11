@@ -195,3 +195,17 @@ test('Test Expired Date', t => {
 	t.ok(results.info, 'Info returned expired');
 	t.end();
 });
+
+test('Test bad match CVN & Card', t => {
+	const results = simpleCard({
+		number: '4122027811098688',
+		cvn: '3442',
+		expire: '09/20'
+	});
+
+	t.ok(results);
+	t.notOk(results.isValid);
+	t.equal(results.cvnType.toLowerCase(), 'invalid cvn code', '4 digit cvv does not match a visa card');
+	t.equal(results.cardType, 'visa', 'It is a visa card');
+	t.end();
+});

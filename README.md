@@ -57,6 +57,8 @@ const validationObj = simpleCard({
 
 The parameters of Simple Card are very flexible.
 
+Using the object based format will now also validate that the cvn matches the type of card given say someone enters a visa card number but uses an amex 4 digit cvn, this will cause simple card to give back a false for its `isValid` value. 
+
 ### Validate Card Object
 
 ```js
