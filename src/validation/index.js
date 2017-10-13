@@ -1,7 +1,7 @@
 
 import { luhnChk, matchesCardType, normalizeDate, organizeResults } from '../helpers/index';
 
-const validDate = expire => {
+const validDate = (expire = '0') => {
 	if (!expire) {
 		return {
 			isValid: false,
@@ -18,19 +18,21 @@ const validDate = expire => {
 	};
 };
 
-const debugValidNum = number => {
+const validNumber = (number = '0') => {
+	const sanitizedNumber = number.replace(/\W/g, '');
 	const cards = {
 		visa: /^4[0-9]{13,15}$/,
 		discover: /^6[0-9]{15}$/,
 		master: /^5[1-5][0-9]{14}$/,
 		amex: /^3(4|7)[0-9]{13}$/
 	};
+
 	let prop = '';
 
 	for (prop in cards) {
-		if (cards[prop].test(number)) {
+		if (cards[prop].test(sanitizedNumber)) {
 			return {
-				isValid: true,
+				isValid: Boolean(luhnChk(sanitizedNumber)),
 				info: prop
 			};
 		}
@@ -43,42 +45,17 @@ const debugValidNum = number => {
 	};
 };
 
-const validNumber = number => {
-	const cards = {
-		visa: /^4[0-9]{13,15}$/,
-		discover: /^6[0-9]{15}$/,
-		master: /^5[1-5][0-9]{14}$/,
-		amex: /^3(4|7)[0-9]{13}$/
-	};
-
-	let prop = '';
-
-	for (prop in cards) {
-		if (cards[prop].test(number)) {
-			return {
-				isValid: Boolean(luhnChk(number)),
-				info: prop
-			};
-		}
-		continue;
-	}
-
-	return {
-		isValid: false,
-		info: 'Invalid Card Number'
-	};
-};
-
-const validCVN = (cvn, cardType) => {
-	const containsNumbers = (/[0-9]/).test(cvn);
+const validCVN = (cvn = '0', cardType) => {
+	const sanatizedCVN = cvn.replace(/\W/g, '');
+	const containsNumbers = (/[0-9]/).test(sanatizedCVN);
 	const cvns = {
-		norm: containsNumbers && cvn.length === 3,
-		amex: containsNumbers && cvn.length === 4
+		norm: containsNumbers && sanatizedCVN.length === 3,
+		amex: containsNumbers && sanatizedCVN.length === 4
 	};
 	let prop = '';
 
 	for (prop in cvns) {
-		if (cvns[prop] && matchesCardType(cvn, cardType)) {
+		if (cvns[prop] && matchesCardType(sanatizedCVN, cardType)) {
 			return {
 				isValid: true,
 				info: prop
@@ -93,7 +70,7 @@ const validCVN = (cvn, cardType) => {
 	};
 };
 
-export default (cardObj, debug) => {
+export default cardObj => {
 
 	if (!cardObj) {
 		return {
@@ -104,7 +81,7 @@ export default (cardObj, debug) => {
 	}
 
 	const { number, cvn, expire } = cardObj;
-	const cardType = debug ? debugValidNum(number) : validNumber(number);
+	const cardType = validNumber(number);
 	const cvnType = validCVN(cvn, cardType);
 	const expired = validDate(expire);
 

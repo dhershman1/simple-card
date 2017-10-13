@@ -1,12 +1,12 @@
 import {isObject, validateType} from './helpers/index';
 import validationMethods from './validation/index';
 
-const singleRun = (type, item, debug) => validationMethods()[type](item, debug);
+const singleRun = (type, item) => validationMethods()[type](item);
 
-export default (card, debug) => {
+export default card => {
 	if (!isObject(card)) {
-		return singleRun(validateType(card), card, debug);
+		return singleRun(validateType(card), card);
 	}
 
-	return validationMethods(card, debug);
+	return validationMethods(card);
 };

@@ -209,3 +209,48 @@ test('Test bad match CVN & Card', t => {
 	t.equal(results.cardType, 'visa', 'It is a visa card');
 	t.end();
 });
+
+test('Test bad match CVN & Visa default test number', t => {
+	const results = simpleCard({
+		number: '4111111111111111',
+		cvn: '3442',
+		expire: '09/20'
+	});
+
+	t.ok(results);
+	t.notOk(results.isValid);
+	t.equal(results.cvnType.toLowerCase(), 'invalid cvn code', '4 digit cvv does not match a visa card');
+	t.equal(results.cardType, 'visa', 'It is a visa card');
+	t.end();
+});
+
+test('Test sanitize data', t => {
+	const results = simpleCard({
+		number: '4111 1111 1111 1111',
+		cvn: '344',
+		expire: '09/20'
+	});
+
+	t.ok(results);
+	t.ok(results.isValid);
+	t.equal(results.cvnType, 'norm', 'Valid CVN returned');
+	t.equal(results.cardType, 'visa', 'It is a visa card');
+	t.notOk(results.expire, 'Card is not expired');
+	t.end();
+});
+
+
+test('Test bad match CVN & sanitize data', t => {
+	const results = simpleCard({
+		number: '4111 1111 1111 1111',
+		cvn: '3442',
+		expire: '09/20'
+	});
+
+	t.ok(results);
+	t.notOk(results.isValid);
+	t.equal(results.cvnType.toLowerCase(), 'invalid cvn code', '4 digit cvv does not match a visa card');
+	t.equal(results.cardType, 'visa', 'It is a visa card');
+	t.notOk(results.expire, 'Card is not expired');
+	t.end();
+});
