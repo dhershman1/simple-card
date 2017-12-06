@@ -1,5 +1,5 @@
 
-import { luhnChk, matchesCardType, normalizeDate, organizeResults } from '../helpers/index';
+import { getCardType, luhnChk, matchesCardType, normalizeDate, organizeResults } from '../helpers/index';
 
 const validDate = (expire = '0') => {
 	if (!expire) {
@@ -20,28 +20,11 @@ const validDate = (expire = '0') => {
 
 const validNumber = (number = '0') => {
 	const sanitizedNumber = number.replace(/\W/g, '');
-	const cards = {
-		visa: /^4[0-9]{13,15}$/,
-		discover: /^6[0-9]{15}$/,
-		master: /^5[1-5][0-9]{14}$/,
-		amex: /^3(4|7)[0-9]{13}$/
-	};
-
-	let prop = '';
-
-	for (prop in cards) {
-		if (cards[prop].test(sanitizedNumber)) {
-			return {
-				isValid: Boolean(luhnChk(sanitizedNumber)),
-				info: prop
-			};
-		}
-		continue;
-	}
+	const valid = Boolean(luhnChk(sanitizedNumber));
 
 	return {
-		isValid: false,
-		info: 'Invalid Card Number'
+		isValid: valid,
+		info: valid ? getCardType(sanitizedNumber) : 'Invalid Card Number'
 	};
 };
 

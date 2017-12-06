@@ -20,6 +20,65 @@ export const matchesCardType = (cvn, cardType) => {
 	return true;
 };
 
+const range = (from, to) => {
+	if (isNaN(from) && isNaN(to)) {
+		throw new TypeError('Both arguments to range must be numbers');
+	}
+	const result = [];
+	let n = from;
+
+	while (n < to) {
+		result.push(n);
+		n += 1;
+	}
+
+	return result;
+};
+
+/**
+ *
+ * @param {Function} f Function to run as we iterate through the list
+ * @param {Array} x Array to iterate through
+ */
+const find = (f, x) => {
+	const len = x.length;
+	let idx = 0;
+
+	while (idx < len) {
+		if (f(x[idx])) {
+			return x[idx];
+		}
+
+		idx += 1;
+	}
+
+	return false;
+};
+
+export const getCardType = ccNumber => {
+	const types = {
+		amex: [34, 37],
+		discover: [6011, ...range(622126, 622925), ...range(644, 649), 65],
+		master: range(50, 55),
+		visa: [4]
+	};
+
+	for (const cardType in types) {
+		const found = find(n => {
+			const reg = new RegExp(`^${n}`);
+
+			return reg.test(ccNumber);
+
+		}, types[cardType]);
+
+		if (found) {
+			return cardType;
+		}
+	}
+
+	return 'No Type Found';
+};
+
 export const luhnChk = value => {
 	const numArr = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
 	let len = value.length;

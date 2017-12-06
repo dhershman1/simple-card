@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.0
+
+> - Improved the card type functionality, to go through a list of digit arrays to find the card type
+> - Allowed me to clean up the validation functionality a bit
+
 ## v1.2.1
 
 > - Numbers passed in will now be sanatized to an ugly string before validation
