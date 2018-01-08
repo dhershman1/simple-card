@@ -110,9 +110,7 @@ module.exports = {
 		'func-name-matching': ['error'],
 		'func-names': ['error'],
 		'func-style': ['error'],
-		'indent': ['error', 'tab', {
-			'SwitchCase': 1
-		}],
+		'indent': ['error', 2],
 		'key-spacing': ['error'],
 		'keyword-spacing': ['error', {
 			'before': true,

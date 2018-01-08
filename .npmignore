@@ -3,3 +3,6 @@ changelog.md
 README-1.x.x.md
 .travis.yml
 bitbucket-pipelines.yml
+scripts/
+src/
+rollup.config.js

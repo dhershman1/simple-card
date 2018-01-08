@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/dhershman1/simple-card.svg?branch=master)](https://travis-ci.org/dhershman1/simple-card)
-[![npm](https://img.shields.io/npm/v/simple-card.svg?style=flat)](https://www.npmjs.com/package/simple-card) [![Downloads](https://img.shields.io/npm/dm/simple-card.svg?style=flat)](https://www.npmjs.com/package/simple-card) [![dependencies Status](https://david-dm.org/dhershman1/simple-card/status.svg)](https://david-dm.org/dhershman1/simple-card) [![devDependencies Status](https://david-dm.org/dhershman1/simple-card/dev-status.svg)](https://david-dm.org/dhershman1/simple-card?type=dev)
+(https://img.shields.io/npm/dm/simple-card.svg?style=flat)](https://www.npmjs.com/package/simple-card) [![dependencies Status](https://david-dm.org/dhershman1/simple-card/status.svg)](https://david-dm.org/dhershman1/simple-card) [![devDependencies Status](https://david-dm.org/dhershman1/simple-card/dev-status.svg)](https://david-dm.org/dhershman1/simple-card?type=dev)
 
 # Simple Card
 
@@ -37,27 +37,11 @@ Browser
 </script>
 ```
 
-## Debug Mode
-
-Simple Card now has a debug mode that you can pass in a boolean as the 2nd argument to make simple-card work in debug module
-
-```js
-import simpleCard from 'simple-card';
-
-const validationObj = simpleCard({
-	number: '4111111111111111',
-	cvn: '333',
-	expire: '09/20'
-}, true);
-
-// Output => {isValid: true, cardType: 'visa', cvnType: 'norm', expired: false}
-```
-
 ## Usage
 
 The parameters of Simple Card are very flexible.
 
-Using the object based format will now also validate that the cvn matches the type of card given say someone enters a visa card number but uses an amex 4 digit cvn, this will cause simple card to give back a false for its `isValid` value. 
+Using the object based format will now also validate that the cvn matches the type of card given say someone enters a visa card number but uses an amex 4 digit cvn, this will cause simple card to give back a false for its `isValid` value.
 
 ### Validate Card Object
 
