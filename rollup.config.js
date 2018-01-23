@@ -9,6 +9,7 @@ export default {
     file: 'dist/simple-card.umd.js'
   },
   plugins: [
-    buble()
+    buble(),
+    uglify()
   ]
 };

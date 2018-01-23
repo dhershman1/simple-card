@@ -7,6 +7,7 @@
 - Changed: Switched out testing suite to ava
 - Added: Seperate tests for internals
 - Added: Support for more date seperators instead of just `/`
+- Readded: Automatic uglify of the module
 
 ## v1.3.1
 
