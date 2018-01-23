@@ -1,4 +1,4 @@
-import { isObject, normalizeDate } from '../_internals/index';
+import { generateDate, isObject, normalizeDate } from '../_internals/index';
 
 const expired = (card = '0') => {
   const e = isObject(card) ? card.expire : card;
@@ -9,7 +9,7 @@ const expired = (card = '0') => {
       info: 'No Data Provided'
     };
   }
-  const currDate = normalizeDate();
+  const currDate = generateDate();
   const expireDate = new Date(normalizeDate(e));
   const isExpired = currDate > expireDate;
 

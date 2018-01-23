@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.3.2
+
+- Fix: Better IE support dates should build out properly now (specifically IE 10 and 11)
+   - These would use past years when only given a XX/XX string so `1/19` brokedown to `Janurary of 1919`
+- Changed: Switched out testing suite to ava
+- Added: Seperate tests for internals
+- Added: Support for more date seperators instead of just `/`
+
 ## v1.3.1
 
 - Fix: Expiration should no longer mark the current month & year as expired

@@ -1,43 +1,4 @@
 
-/**
- * Verifies the item is an object
- * @param  {Object}  x The item to verify
- * @return {Boolean}     Returns true or false if the item is an object
- */
-export const isObject = x => Object.prototype.toString.call(x) === '[object Object]';
-
-export const extend = (...args) => args.reduce((acc, x) => {
-  let key = '';
-
-  for (key in x) {
-    acc[key] = x[key];
-  }
-
-  return acc;
-}, {});
-
-export const normalizeDate = date => {
-  if (date) {
-    return date.replace('/', '/1/');
-  }
-
-  const dateObj = new Date();
-
-  return new Date(`${dateObj.getMonth() + 1}/1/${dateObj.getFullYear()}`);
-};
-
-export const matchesCardType = (cvn, cardType) => {
-  if (cvn.length === 4 && cardType && cardType.info !== 'amex') {
-    return false;
-  }
-
-  if (cvn.length === 3 && cardType && cardType.info === 'amex') {
-    return false;
-  }
-
-  return true;
-};
-
 const range = (from, to) => {
   if (isNaN(from) && isNaN(to)) {
     throw new TypeError('Both arguments to range must be numbers');
@@ -71,6 +32,56 @@ const find = (f, x) => {
   }
 
   return false;
+};
+
+const fullYear = year => {
+  if (year.length === 2) {
+    return `20${year}`;
+  }
+
+  return year;
+};
+
+/**
+ * Verifies the item is an object
+ * @param  {Object}  x The item to verify
+ * @return {Boolean}     Returns true or false if the item is an object
+ */
+export const isObject = x => Object.prototype.toString.call(x) === '[object Object]';
+
+export const extend = (...args) => args.reduce((acc, x) => {
+  let key = '';
+
+  for (key in x) {
+    acc[key] = x[key];
+  }
+
+  return acc;
+}, {});
+
+export const generateDate = () => {
+  const dateObj = new Date();
+
+  return new Date(`${dateObj.getMonth() + 1}/1/${dateObj.getFullYear()}`);
+};
+
+export const normalizeDate = date => {
+  const cleanDate = date.replace(/\s/g, '');
+  const splitDate = cleanDate.split(/\W/g);
+
+  return `${splitDate[0]}/1/${fullYear(splitDate[1])}`;
+};
+
+export const matchesCardType = (cvn, cardType) => {
+  if (cvn.length === 4 && cardType && cardType.info !== 'amex') {
+    return false;
+  }
+
+  if (cvn.length === 3 && cardType && cardType.info === 'amex') {
+    return false;
+  }
+
+  return true;
 };
 
 export const getCardType = ccNumber => {
@@ -118,11 +129,13 @@ export const luhnChk = value => {
  * @return {String}   Returns a string containing what method to use
  */
 export const validateType = x => {
-  if (String(x).indexOf('/') !== -1) {
+  const stringified = String(x);
+
+  if (/\W/g.test(stringified)) {
     return 'validDate';
   }
 
-  if (String(x).length > 10) {
+  if (stringified.length > 10) {
     return 'validNumber';
   }
 

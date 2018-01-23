@@ -4,50 +4,6 @@
 	(global.simpleCard = factory());
 }(this, (function () { 'use strict';
 
-/**
- * Verifies the item is an object
- * @param  {Object}  x The item to verify
- * @return {Boolean}     Returns true or false if the item is an object
- */
-var isObject = function (x) { return Object.prototype.toString.call(x) === '[object Object]'; };
-
-var extend = function () {
-  var args = [], len = arguments.length;
-  while ( len-- ) args[ len ] = arguments[ len ];
-
-  return args.reduce(function (acc, x) {
-  var key = '';
-
-  for (key in x) {
-    acc[key] = x[key];
-  }
-
-  return acc;
-}, {});
-};
-
-var normalizeDate = function (date) {
-  if (date) {
-    return date.replace('/', '/1/');
-  }
-
-  var dateObj = new Date();
-
-  return new Date(((dateObj.getMonth() + 1) + "/1/" + (dateObj.getFullYear())));
-};
-
-var matchesCardType = function (cvn, cardType) {
-  if (cvn.length === 4 && cardType && cardType.info !== 'amex') {
-    return false;
-  }
-
-  if (cvn.length === 3 && cardType && cardType.info === 'amex') {
-    return false;
-  }
-
-  return true;
-};
-
 var range = function (from, to) {
   if (isNaN(from) && isNaN(to)) {
     throw new TypeError('Both arguments to range must be numbers');
@@ -81,6 +37,68 @@ var find = function (f, x) {
   }
 
   return false;
+};
+
+var fullYear = function (year) {
+  if (year.length === 2) {
+    return ("20" + year);
+  }
+
+  return year;
+};
+
+/**
+ * Verifies the item is an object
+ * @param  {Object}  x The item to verify
+ * @return {Boolean}     Returns true or false if the item is an object
+ */
+var isObject = function (x) { return Object.prototype.toString.call(x) === '[object Object]'; };
+
+var extend = function () {
+  var args = [], len = arguments.length;
+  while ( len-- ) args[ len ] = arguments[ len ];
+
+  return args.reduce(function (acc, x) {
+  var key = '';
+
+  for (key in x) {
+    acc[key] = x[key];
+  }
+
+  return acc;
+}, {});
+};
+
+var generateDate = function () {
+  var dateObj = new Date();
+
+  return new Date(((dateObj.getMonth() + 1) + "/1/" + (dateObj.getFullYear())));
+};
+
+var normalizeDate = function (date) {
+  var cleanDate = date.replace(/\s/g, '');
+  var splitDate = cleanDate.split(/\W/g);
+  var len = splitDate.length;
+
+  // If our length is only two, then we assume its the month & year so XX/XX
+  if (len === 2) {
+    return ((splitDate[0]) + "/1/" + (fullYear(splitDate[1])));
+  }
+
+  // Else we assume its a 3 stage date so XX/XX/XX
+  return ((splitDate[0]) + "/" + (splitDate[1]) + "/" + (fullYear(splitDate[2])));
+};
+
+var matchesCardType = function (cvn, cardType) {
+  if (cvn.length === 4 && cardType && cardType.info !== 'amex') {
+    return false;
+  }
+
+  if (cvn.length === 3 && cardType && cardType.info === 'amex') {
+    return false;
+  }
+
+  return true;
 };
 
 var getCardType = function (ccNumber) {
@@ -207,7 +225,7 @@ var expired = function (card) {
       info: 'No Data Provided'
     };
   }
-  var currDate = normalizeDate();
+  var currDate = generateDate();
   var expireDate = new Date(normalizeDate(e));
   var isExpired = currDate > expireDate;
 
