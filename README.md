@@ -37,6 +37,10 @@ Browser
 </script>
 ```
 
+## Documentation
+
+You can find most of the documentation for simple card here: http://www.dusty.codes/simple-card
+
 ## Usage
 
 The parameters of Simple Card are very flexible.

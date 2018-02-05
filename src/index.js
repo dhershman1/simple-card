@@ -1,4 +1,4 @@
-import { extend, isObject, organizeResults, validateType} from './_internals/index';
+import { extend, isObject, organizeResults} from './_internals/index';
 import validCVN from './validation/cvn';
 import validDate from './validation/expiration';
 import validNumber from './validation/cnumber';
@@ -7,6 +7,20 @@ const validationMethods = {
   validNumber,
   validCVN,
   validDate
+};
+
+const validateType = (x = '') => {
+  const stringified = String(x);
+
+  if (/\W/g.test(stringified)) {
+    return 'validDate';
+  }
+
+  if (stringified.length > 10) {
+    return 'validNumber';
+  }
+
+  return 'validCVN';
 };
 
 const normalizeObject = d => {
@@ -23,7 +37,7 @@ const normalizeObject = d => {
 
 /**
  * @name simpleCard
- * @description Validates a credit card object, or individual pieces of the card that are sent in by string or partial obejcts
+ * @description Validates a credit card object, partial objects, or single pieces of data from the card
  * @param {Object} card The card Object that we wish to be validated
  * @returns {Object} Returns an object of information about the test and whether or not it passed
  *

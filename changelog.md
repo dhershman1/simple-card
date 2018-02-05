@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.4.0
+
+- Added: Defaults for most validation methods
+- Added: Type Checks for each validation method
+   - **Note:** Type errors will be thrown if invalid types are passed through (Arrays, Objects, etc.)
+- Added: Some better documentation to methods
+- Added: Tests for all of these main changes
+- Changed: Re organized some internal methods to live where they are being used since they are not being re used
+- Changed: Updated all Dev dependencies
+- Fixed: Tests to no longer use hardcoded dates (Unless its a test on expired dates)
+- Fixed: Code to meet new ESlint version linting errors
+- Fixed: Rollup config for new version
+
+
 ## v1.3.2
 
 - Fix: Better IE support dates should build out properly now (specifically IE 10 and 11)

@@ -1,8 +1,5 @@
 
 const range = (from, to) => {
-  if (isNaN(from) && isNaN(to)) {
-    throw new TypeError('Both arguments to range must be numbers');
-  }
   const result = [];
   let n = from;
 
@@ -19,7 +16,7 @@ const range = (from, to) => {
  * @param {Function} f Function to run as we iterate through the list
  * @param {Array} x Array to iterate through
  */
-const find = (f, x) => {
+const find = (f, x = '') => {
   const len = x.length;
   let idx = 0;
 
@@ -34,21 +31,20 @@ const find = (f, x) => {
   return false;
 };
 
-const fullYear = year => {
-  if (year.length === 2) {
-    return `20${year}`;
-  }
-
-  return year;
-};
-
 /**
- * Verifies the item is an object
- * @param  {Object}  x The item to verify
- * @return {Boolean}     Returns true or false if the item is an object
+ * @name isObject
+ * @description Verifies the item is an object
+ * @param  {Object} x The item to verify
+ * @returns {Boolean} Returns true or false if the item is an object
  */
 export const isObject = x => Object.prototype.toString.call(x) === '[object Object]';
 
+/**
+ * @name extend
+ * @description Extends objects into one single object
+ * @param {Object} args Arguments can be as many objects as wanted
+ * @returns {Object} Returns the combined object
+ */
 export const extend = (...args) => args.reduce((acc, x) => {
   let key = '';
 
@@ -59,32 +55,7 @@ export const extend = (...args) => args.reduce((acc, x) => {
   return acc;
 }, {});
 
-export const generateDate = () => {
-  const dateObj = new Date();
-
-  return new Date(`${dateObj.getMonth() + 1}/1/${dateObj.getFullYear()}`);
-};
-
-export const normalizeDate = date => {
-  const cleanDate = date.replace(/\s/g, '');
-  const splitDate = cleanDate.split(/\W/g);
-
-  return `${splitDate[0]}/1/${fullYear(splitDate[1])}`;
-};
-
-export const matchesCardType = (cvn, cardType) => {
-  if (cvn.length === 4 && cardType && cardType.info !== 'amex') {
-    return false;
-  }
-
-  if (cvn.length === 3 && cardType && cardType.info === 'amex') {
-    return false;
-  }
-
-  return true;
-};
-
-export const getCardType = ccNumber => {
+export const getCardType = (ccNumber = '0') => {
   const types = {
     amex: [34, 37],
     discover: [6011, ...range(622126, 622925), ...range(644, 649), 65],
@@ -106,40 +77,6 @@ export const getCardType = ccNumber => {
   }
 
   return 'No Type Found';
-};
-
-export const luhnChk = value => {
-  const numArr = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
-  let len = value.length;
-  let bit = 1;
-  let sum = 0;
-  let num = 0;
-
-  while (len) {
-    num = parseInt(value.charAt(--len), 10);
-    sum += (bit ^= 1) ? numArr[num] : num;
-  }
-
-  return sum && sum % 10 === 0;
-};
-
-/**
- * Figure out what type of validation we are running if only a string/number is sent in
- * @param  {String}  x The value to check
- * @return {String}   Returns a string containing what method to use
- */
-export const validateType = x => {
-  const stringified = String(x);
-
-  if (/\W/g.test(stringified)) {
-    return 'validDate';
-  }
-
-  if (stringified.length > 10) {
-    return 'validNumber';
-  }
-
-  return 'validCVN';
 };
 
 export const organizeResults = obj => {

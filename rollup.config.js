@@ -3,8 +3,8 @@ import uglify from 'rollup-plugin-uglify';
 
 export default {
   input: 'src/index.js',
-  name: 'simpleCard',
   output: {
+    name: 'simpleCard',
     format: 'umd',
     file: 'dist/simple-card.umd.js'
   },

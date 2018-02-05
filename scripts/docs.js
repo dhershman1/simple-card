@@ -19,7 +19,6 @@ const generateUsage = () => ({
   }
 });
 
-console.log(path.join(process.cwd(), 'src', 'index.js'));
 let generated = jsDocParser.getTemplateDataSync({
   'files': path.join(process.cwd(), 'src', 'index.js'),
   'no-cache': true

@@ -1,26 +1,28 @@
 import simpleCard from '../index';
 import test from 'ava';
 
+const today = new Date();
+const currDate = `${today.getMonth() + 1}/${today.getFullYear}`;
 const validData = {
   visaCard: {
     number: '4122027811098688',
     cvn: '342',
-    expire: '09/20'
+    expire: currDate
   },
   discoverCard: {
     number: '6011906326377506',
     cvn: '566',
-    expire: '07/21'
+    expire: currDate
   },
   masterCard: {
     number: '5387109830289055',
     cvn: '896',
-    expire: '12/20'
+    expire: currDate
   },
   amex: {
     number: '341258393919545',
     cvn: '2271',
-    expire: '01/19'
+    expire: currDate
   }
 };
 
@@ -40,7 +42,7 @@ test('Test Partial Object No Date', t => {
 test('Test Partial Object No Number', t => {
   const result = simpleCard({
     cvn: '896',
-    expire: '01/19'
+    expire: currDate
   });
 
   t.truthy(result);
@@ -53,7 +55,7 @@ test('Test Partial Object No Number', t => {
 test('Test Partial Object No CVN', t => {
   const result = simpleCard({
     number: '5387109830289055',
-    expire: '01/19'
+    expire: currDate
   });
 
   t.truthy(result);
@@ -201,7 +203,7 @@ test('Test bad match CVN & Card', t => {
   const results = simpleCard({
     number: '4122027811098688',
     cvn: '3442',
-    expire: '09/20'
+    expire: currDate
   });
 
   t.truthy(results);
@@ -215,7 +217,7 @@ test('Test bad match CVN & Visa default test number', t => {
   const results = simpleCard({
     number: '4111111111111111',
     cvn: '3442',
-    expire: '09/20'
+    expire: currDate
   });
 
   t.truthy(results);
@@ -229,7 +231,7 @@ test('Test sanitize data', t => {
   const results = simpleCard({
     number: '4111 1111 1111 1111',
     cvn: '344',
-    expire: '09/20'
+    expire: currDate
   });
 
   t.truthy(results);
@@ -245,7 +247,7 @@ test('Test bad match CVN & sanitize data', t => {
   const results = simpleCard({
     number: '4111 1111 1111 1111',
     cvn: '3442',
-    expire: '09/20'
+    expire: currDate
   });
 
   t.truthy(results);
@@ -257,9 +259,50 @@ test('Test bad match CVN & sanitize data', t => {
 });
 
 test('Test to make sure current date is not expired', t => {
-  const results = simpleCard('1/18');
+  const results = simpleCard(currDate);
 
   t.truthy(results);
   t.truthy(results.isValid);
 
+});
+
+// Testing type errors are being thrown
+
+test('Test to make sure card number throws a type error on validation', t => {
+  const error = t.throws(() => {
+    simpleCard({
+      number: ['4111 1111 1111 1111'],
+      cvn: '344',
+      expire: currDate
+    });
+  }, TypeError);
+
+  t.truthy(error);
+  t.is(error.message, 'number is not the proper type String');
+});
+
+test('Test to make sure card CVN throws a type error on validation', t => {
+  const error = t.throws(() => {
+    simpleCard({
+      number: '4111 1111 1111 1111',
+      cvn: ['344'],
+      expire: currDate
+    });
+  }, TypeError);
+
+  t.truthy(error);
+  t.is(error.message, 'cvn is not the proper type String');
+});
+
+test('Test to make sure card number throws a type error on validation', t => {
+  const error = t.throws(() => {
+    simpleCard({
+      number: '4111 1111 1111 1111',
+      cvn: '344',
+      expire: [currDate]
+    });
+  }, TypeError);
+
+  t.truthy(error);
+  t.is(error.message, 'expire is not the proper type String');
 });
