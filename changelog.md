@@ -16,6 +16,7 @@
 - `validation` which is the core functionality and only accepts an object
 - An info property to the results that says if it failed by a rule or if it failed matching
 - Type Errors have been added when the correct type of value isn't provided (String or Number)
+- Converted to a webpack build along with automation scripts for docs, and building files
 
 #### Fixes
 
