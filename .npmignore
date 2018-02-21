@@ -1,8 +1,10 @@
-changelog-1.x.x.md
 changelog.md
-README-1.x.x.md
 .travis.yml
 bitbucket-pipelines.yml
 scripts/
 src/
-rollup.config.js
+webpack.config.js
+webpack.config.dist.js
+.eslintrc.js
+.eslintignore
+.babelrc

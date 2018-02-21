@@ -1,14 +1,5 @@
-import { extend, getCardType, isObject, organizeResults } from './index';
+import { getCardType, isObject, organizeResults } from './index';
 import test from 'ava';
-
-test('Testing extend functionality', t => {
-  const results = extend({ test: 1 }, { thing: 2 });
-
-  t.deepEqual(results, {
-    test: 1,
-    thing: 2
-  });
-});
 
 test('Testing getCardType functionality', t => {
   const results = getCardType('4122027811098688');
@@ -23,21 +14,21 @@ test('Testing isObject functionality', t => {
 
 test('Testing organizeResults functionality', t => {
   const validObj = {
-    validNumber: {
+    number: {
       isValid: true,
       info: 'visa'
     },
-    validCVN: {
+    cvn: {
       isValid: true,
       info: 'norm'
     },
-    validDate: {
+    expired: {
       isValid: true,
       info: false
     }
   };
 
-  t.deepEqual(organizeResults(validObj), {
+  t.deepEqual(organizeResults(validObj, true), {
     isValid: true,
     cardType: 'visa',
     cvnType: 'norm',

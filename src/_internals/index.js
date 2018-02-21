@@ -11,11 +11,6 @@ const range = (from, to) => {
   return result;
 };
 
-/**
- *
- * @param {Function} f Function to run as we iterate through the list
- * @param {Array} x Array to iterate through
- */
 const find = (f, x = '') => {
   const len = x.length;
   let idx = 0;
@@ -31,31 +26,11 @@ const find = (f, x = '') => {
   return false;
 };
 
-/**
- * @name isObject
- * @description Verifies the item is an object
- * @param  {Object} x The item to verify
- * @returns {Boolean} Returns true or false if the item is an object
- */
 export const isObject = x => Object.prototype.toString.call(x) === '[object Object]';
 
-/**
- * @name extend
- * @description Extends objects into one single object
- * @param {Object} args Arguments can be as many objects as wanted
- * @returns {Object} Returns the combined object
- */
-export const extend = (...args) => args.reduce((acc, x) => {
-  let key = '';
+export const typeCheck = x => typeof x === 'string' || typeof x === 'number';
 
-  for (key in x) {
-    acc[key] = x[key];
-  }
-
-  return acc;
-}, {});
-
-export const getCardType = (ccNumber = '0') => {
+export const getCardType = ccNumber => {
   const types = {
     amex: [34, 37],
     discover: [6011, ...range(622126, 622925), ...range(644, 649), 65],
@@ -76,30 +51,46 @@ export const getCardType = (ccNumber = '0') => {
     }
   }
 
-  return 'No Type Found';
+  return false;
 };
 
-export const organizeResults = obj => {
-  const results = {
-    isValid: true
-  };
-  const convertProp = {
-    validNumber: 'cardType',
-    validCVN: 'cvnType',
-    validDate: 'expired'
-  };
-  let count = 0;
-  let prop = '';
-
-  for (prop in obj) {
-    if (!obj[prop].isValid) {
-      count++;
-    }
-
-    results[convertProp[prop]] = obj[prop].info;
+const verify = res => {
+  if (res.isValid) {
+    return res;
   }
 
-  results.isValid = count === 0;
+  if (!res.matches) {
+    res.info = 'CVN does not match the found card type';
+  } else {
+    res.info = 'One of our rules failed';
+  }
 
-  return results;
+  return res;
+};
+
+export const organizeResults = (obj, matches) => {
+  const results = {
+    isValid: false
+  };
+  const convertProp = {
+    number: 'cardType',
+    cvn: 'cvnType',
+    expired: 'expired'
+  };
+  let count = 0;
+
+  Object.keys(obj).forEach(k => {
+    const val = obj[k];
+
+    if (!val.isValid) {
+      count++;
+    } else {
+      results[convertProp[k]] = val.info;
+    }
+
+  });
+
+  results.isValid = count === 0 && matches;
+
+  return verify(results);
 };
