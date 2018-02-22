@@ -4,8 +4,8 @@
 
 #### Breaking Changes
 
-- The ability to send single strings into the main function (call the individual functions)
-- The ability to send partial objects to the main function
+- Removed the ability to send single strings into the main function (call the individual functions)
+- Removed the ability to send partial objects to the main function
 - Changed the expected card object property name from `expire` to `date`
 
 #### New
@@ -15,7 +15,7 @@
 - `expired` which can be used to validate a credit cards expiration date
 - `matches` which can be used to see if a cvn and a card number match (the cvn length matches the card type)
 - `validation` which is the core functionality and only accepts an object
-- An info property to the results that says if it failed by a rule or if it failed matching
+- A match property was added to the results that says if it failed by a rule or if it failed matching
 - Type Errors have been added when the correct type of value isn't provided (String or Number)
 - Converted to a webpack build along with automation scripts for docs, and building files
 - README has been updated with all the needed changes
