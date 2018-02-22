@@ -5,7 +5,7 @@
 
 A smaller surogate to my [simply_valid](https://github.com/dhershman1/simply_valid) module
 
-A simple credit card system that runs validation for dates, cvn, and card numbers. Uses the Luhn Algorithm for card number validation
+A simple credit card system that runs validation for credit cards it uses a luhn algorithm for number validation and has a solid array of numbers to find and validate card types against.
 
 ## Changelog
 
@@ -19,21 +19,21 @@ Standard JS
 ```js
 import simpleCard from 'simple-card';
 
-simpleCard(data);
+simpleCard.validate(data);
 ```
 
 CommonJS
 ```js
 const simpleCard = require('simple-card');
 
-simpleCard(data);
+simpleCard.validate(data);
 ```
 
 Browser
 ```html
 <script src="/path/to/simple-card.umd.js"></script>
 <script>
-	simpleCard(data);
+	simpleCard.validate(data);
 </script>
 ```
 
@@ -41,73 +41,174 @@ Browser
 
 You can find most of the documentation for simple card here: http://www.dusty.codes/simple-card
 
-## Usage
+## Methods
 
-The parameters of Simple Card are very flexible.
+As of v2.0.0 simple-card has been broken down to functions that can be used individually.
 
-Using the object based format will now also validate that the cvn matches the type of card given say someone enters a visa card number but uses an amex 4 digit cvn, this will cause simple card to give back a false for its `isValid` value.
+All methods sanatize the strings (Remove whitespace or special characters like dashes)
 
-### Validate Card Object
+### validate(card)
+
+This is the primary validation function which runs the entire process of validating if the card number and cvn are valid, making sure it isn't expired, and making sure the card type matches the cvn provided.
+
+#### Arguments
+
+- `card` - `Object`: The card object to validate
+    - `card.number` - `String|Number`: The credit card number
+    - `card.cvn` - `String|Number`: The credit card CVN/Security Code
+    - `card.date` - `String`: The credit card expiration date
+
+#### Return
+
+Returns an object with an `isValid` and several other info props with card information
+
+- `isValid` - `Boolean`: The Boolean whether or not the value passed the validation
+- `cardType` - `String`: The found card type
+- `cvnType` - `String`: The found CVN type
+- `expired` - `String`: A simple message on if the card is expired or not
+- `info` - `String`: **Only shows up if the validation fails**. Contains a message about what failed.
+    - Possible Values:
+      - `'CVN does not match the found card type'`
+      - `'One of our rules failed'`
+
+#### Usage
 
 ```js
-import simpleCard from 'simple-card';
+import validate from 'simple-card/validate';
 
-const validationObj = simpleCard({
-	number: '4122027811098688',
-	cvn: '342',
-	expire: '09/20'
-});
+const cardObj = {
+  number: '4111111111111111',
+  cvn: '342',
+  date: currentDate // A simple var which is a string for the current date
+};
 
-```
+validate(cardObj); // => { isValid: true, cardType: 'visa', cvnType: 'norm', expired: 'Not Expired' }
 
-The output of `validationObj` would be:
-
-```js
-{
-	isValid: true,
-	cardType: 'visa',
-	cvnType: 'norm',
-	expired: false
+const badCardObj = {
+  number: '4111111111111111',
+  cvn: '3432',
+  date: currentDate // A simple var which is a string for the current date
 }
+
+validate(badCardObj); // => { isValid: false, cardType: 'visa', cvnType: 'norm', expired: 'Not Expired', info: 'CVN does not match the found card type' }
+
 ```
 
-You can also send in partial objects to only validate certain pieces:
+### number(cardNum)
 
-```js
-import simpleCard from 'simple-card';
+This is the credit card number validation function, uses a luhn algorithm to strictly validate the number
 
-const validationObj = simpleCard({
-	number: '4122027811098688',
-	expire: '09/20'
-});
+#### Arguments
+
+- `cardNum` - `String|Number`: The credit card number to validate
+
+#### Return
+
+Returns an object with an `isValid` prop and a `info` prop.
+
+- `isValid` - `Boolean`: The Boolean whether or not the value passed the validation
+- `info` - `String`: The info property is usually what comes back as the Card type
+    - Possible Values:
+      - `'visa'`: The card number is a `Visa` type of number
+      - `'discover'`: The card number is a `Discover` type of number
+      - `'master'`: The card number is a `Master Card` type of number
+      - `'amex'`: The number is an `American Express` type of number
+      - `'Invalid Card Number'`: The provided Number failed validation
+
+#### Usage
+
+```javascript
+import number from 'simple-card/number';
+
+number('4111111111111111'); // => { isValid: true, info: 'visa' }
+number(4111111111111111); // => { isValid: true, info: 'visa' }
+number('33222123'); // => { isValid: false, info: 'Invalid Card Number' }
+number(33222123); // => { isValid: false, info: 'Invalid Card Number' }
 ```
 
-Your output would then be:
+### cvn(cardCvn)
 
-```js
-{
-	isValid: false,
-	cardType: 'visa',
-	cvnType: 'Invalid CVN Code',
-	expired: false
-}
+This is the cvn or security code validation function. Its job essentially just makes sure its a correct length and doesn't contain any incorrect characters
+
+#### Arguments
+
+- `cardCVN` - `String|Number`: The CVN or security code to validate
+
+#### Return
+
+Returns an object with an `isValid` prop and a `info` prop.
+
+- `isValid` - `Boolean`: The Boolean whether or not the value passed the validation
+- `info` - `String`: The info property is usually what comes back as the CVN type
+    - Possible Values:
+      - `'norm'`: normal 3 digit code
+      - `'amex'`: amex 4 digit code
+      - `'Invalid CVN Code'`: The provided CVN failed validation
+
+#### Usage
+
+```javascript
+import cvn from 'simple-card/cvn';
+
+cvn('333'); // => { isValid: true, info: 'norm' }
+cvn(333); // => { isValid: true, info: 'norm' }
+cvn('4444'); // => { isValid: true, info: 'amex' }
+cvn(4444); // => { isValid: true, info: 'amex' }
+cvn('55555'); // => { isValid: false, info: 'Invalid CVN Code' }
+cvn(55555); // => { isValid: false, info: 'Invalid CVN Code' }
 ```
 
-Notice the `cvn` made the validation returned falsey, since it was not provided
+### expired(date)
 
-## Or, send in single data pieces
+This function accepts a String of the card expiration date to validate if the card is currently expired or not
 
-You can also send in single string data pieces so just a `card number`, `cvn`, or `date`
+#### Arguments
 
-```js
-import simpleCard from 'simple-card';
+- `date` - `String`: Must be a string this is the date we wish to validate
 
-const validNumber = simpleCard('4122027811098688');
-// Output: {isValid: true, info: 'visa'}
-const validCVN = simpleCard('333');
-// Output: {isValid: true, info: 'norm'}
-const validCVN = simpleCard('4444');
-// Output: {isValid: true, info: 'amex'}
-const validDate = simpleCard('08/20');
-// Output: {isValid: true, info: false}
+#### Return
+
+Returns an object with an `isValid` prop and a `info` prop.
+
+- `isValid` - `Boolean`: The Boolean whether or not the value passed the validation
+- `info` - `String`: The info property is usually what comes back as the CVN type
+    - Possible Values:
+      - `'Not Expired'`: The provided date is not expired
+      - `'Is Expired'`: The provided date is indeed expired
+
+#### Usage
+
+```javascript
+import expired from 'simple-card/expired';
+
+// Assuming "currDate" is a variable that holds the current date in a XX/XX format
+expired(currDate); // => { isValid: true, info: 'Not Expired' }
+expired('01/18'); // => { isValid: false, info: 'Is Expired' }
+```
+
+### matches(cvn, cardNum)
+
+This function takes the cvn and card number, fetches the card type from the number and then validates that the cvn matches up with the card type.
+
+#### Arguments
+
+- `cvn` - `String|Number`: The card cvn to compare with
+- `cardNum` - `String|Number`: The cards number to use to fetch the type for comparison
+
+#### Return
+
+Returns a Boolean on if the provided values match up or not
+
+#### Usage
+
+```javascript
+import matches from 'simple-card/matches';
+
+// Assuming "amexCardNumber" is a valid American Express Credit Card Number
+matches('333', '4111111111111111'); // => true
+matches(333, 4111111111111111); // => true
+matches('4444', amexCardNumber); // => true
+matches(4444, amexCardNumber); // => true
+matches('4444', '4111111111111111'); // => false
+matches(4444, 4111111111111111); // => false
 ```

@@ -6,6 +6,7 @@
 
 - The ability to send single strings into the main function (call the individual functions)
 - The ability to send partial objects to the main function
+- Changed the expected card object property name from `expire` to `date`
 
 #### New
 
@@ -17,6 +18,7 @@
 - An info property to the results that says if it failed by a rule or if it failed matching
 - Type Errors have been added when the correct type of value isn't provided (String or Number)
 - Converted to a webpack build along with automation scripts for docs, and building files
+- README has been updated with all the needed changes
 
 #### Fixes
 
