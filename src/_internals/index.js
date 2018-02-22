@@ -1,35 +1,20 @@
 
+// Create a range from a to b based on the values provided
 const range = (from, to) => {
   const result = [];
-  let n = from;
+  let i = from;
 
-  while (n < to) {
-    result.push(n);
-    n += 1;
+  for (i; i < to; i++) {
+    result.push(i);
   }
 
   return result;
 };
 
-const find = (f, x = '') => {
-  const len = x.length;
-  let idx = 0;
-
-  while (idx < len) {
-    if (f(x[idx])) {
-      return x[idx];
-    }
-
-    idx += 1;
-  }
-
-  return false;
-};
-
-export const isObject = x => Object.prototype.toString.call(x) === '[object Object]';
-
+// Type check for our passed in Data
 export const typeCheck = x => typeof x === 'string' || typeof x === 'number';
 
+// Our function that goes through our number and tries to find the type it belongs to
 export const getCardType = ccNumber => {
   const types = {
     amex: [34, 37],
@@ -39,12 +24,7 @@ export const getCardType = ccNumber => {
   };
 
   for (const cardType in types) {
-    const found = find(n => {
-      const reg = new RegExp(`^${n}`);
-
-      return reg.test(ccNumber);
-
-    }, types[cardType]);
+    const [found] = types[cardType].filter(n => new RegExp(`^${n}`).test(ccNumber));
 
     if (found) {
       return cardType;
@@ -52,45 +32,4 @@ export const getCardType = ccNumber => {
   }
 
   return false;
-};
-
-const verify = res => {
-  if (res.isValid) {
-    return res;
-  }
-
-  if (!res.matches) {
-    res.info = 'CVN does not match the found card type';
-  } else {
-    res.info = 'One of our rules failed';
-  }
-
-  return res;
-};
-
-export const organizeResults = (obj, matches) => {
-  const results = {
-    isValid: false
-  };
-  const convertProp = {
-    number: 'cardType',
-    cvn: 'cvnType',
-    expired: 'expired'
-  };
-  let count = 0;
-
-  Object.keys(obj).forEach(k => {
-    const val = obj[k];
-
-    if (!val.isValid) {
-      count++;
-    } else {
-      results[convertProp[k]] = val.info;
-    }
-
-  });
-
-  results.isValid = count === 0 && matches;
-
-  return verify(results);
 };

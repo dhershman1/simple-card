@@ -1,8 +1,24 @@
-import { isObject, organizeResults} from '../_internals';
 import validCVN from '../cvn';
 import validDate from '../expired';
 import validMatch from '../matches';
 import validNumber from '../number';
+
+// Go through and make sure every validation result came back valid
+const allValid = (number, cvn, expired) =>
+  number.isValid && cvn.isValid && expired.isValid;
+
+// Builds out our nice readable object
+const organizeResults = (number, cvn, expired) => {
+  const matches = validMatch(cvn, number);
+
+  return {
+    isValid: allValid(number, cvn, expired) && matches,
+    cardType: number.info,
+    cvnType: cvn.info,
+    expired: expired.info,
+    info: !matches ? 'CVN does not match the found card type' : ''
+  };
+};
 
 /**
  * @name validate
@@ -19,15 +35,11 @@ import validNumber from '../number';
   }); // => { isValid: true, cardType: 'visa', cvnType: 'norm', expired: false }
  */
 const simpleCard = card => {
-  if (!isObject(card)) {
+  if (Object.prototype.toString.call(card) !== '[object Object]') {
     throw new TypeError('Must send full card object to run full validation');
   }
 
-  return organizeResults({
-    number: validNumber(card.number),
-    cvn: validCVN(card.cvn),
-    expired: validDate(card.date)
-  }, validMatch(card.cvn, card.number));
+  return organizeResults(validNumber(card.number), validCVN(card.cvn), validDate(card.date));
 };
 
 export default simpleCard;

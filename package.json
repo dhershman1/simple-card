@@ -12,6 +12,7 @@
     "docs": "node scripts/docs.js",
     "create": "node scripts/create-export.js",
     "build": "webpack && webpack --config webpack.config.dist.js",
+    "build:dist": "webpack --config webpack.config.dist.js",
     "test": "ava",
     "lint": "eslint src/index.js && eslint src/_internals/index.js && eslint src/validation/*.js"
   },
