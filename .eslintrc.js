@@ -74,7 +74,7 @@ module.exports = {
 			'before': false,
 			'after': true
 		}],
-		'no-confusing-arrow': ['error'],
+		'no-confusing-arrow': ['off'],
 		'no-duplicate-imports': ['error'],
 		'no-useless-constructor': ['error'],
 		'no-useless-rename': ['error'],

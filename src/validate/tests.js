@@ -33,7 +33,7 @@ test('Test visa setup', t => {
   t.true(result.isValid, 'Card Number Valid');
   t.is(result.cardType, 'visa', 'Validated as a Visa card');
   t.is(result.cvnType, 'norm', 'Validated with a normal cvn');
-  t.is(result.expired, 'Not Expired');
+  t.false(result.isExpired, 'Not Expired');
 
 });
 
@@ -43,7 +43,7 @@ test('Test discover setup', t => {
   t.true(result.isValid, 'Card Number Valid');
   t.is(result.cardType, 'discover', 'Validated as a Discover card');
   t.is(result.cvnType, 'norm', 'Validated with a normal cvn');
-  t.is(result.expired, 'Not Expired');
+  t.false(result.isExpired, 'Not Expired');
 
 });
 
@@ -53,7 +53,7 @@ test('Test master card setup', t => {
   t.true(result.isValid, 'Card Number Valid');
   t.is(result.cardType, 'master', 'Validated as a Master card');
   t.is(result.cvnType, 'norm', 'Validated with a normal cvn');
-  t.is(result.expired, 'Not Expired');
+  t.false(result.isExpired, 'Not Expired');
 
 });
 
@@ -63,7 +63,7 @@ test('Test amex card setup', t => {
   t.true(result.isValid, 'Card Number Valid');
   t.is(result.cardType, 'amex', 'Validated as a Amex card');
   t.is(result.cvnType, 'amex', 'Validated with a Amex cvn');
-  t.is(result.expired, 'Not Expired');
+  t.false(result.isExpired, 'Not Expired');
 
 });
 
@@ -105,7 +105,7 @@ test('Test sanitize data', t => {
   t.true(results.isValid);
   t.is(results.cvnType, 'norm', 'Valid CVN returned');
   t.is(results.cardType, 'visa', 'It is a visa card');
-  t.falsy(results.expire, 'Card is not expired');
+  t.false(results.isExpired, 'Card is not expired');
 
 });
 

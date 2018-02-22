@@ -42,7 +42,7 @@ const expired = date => {
 
   return {
     isValid: !isExpired,
-    info: isExpired ? 'Is Expired' : 'Not Expired'
+    isExpired
   };
 };
 

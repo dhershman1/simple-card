@@ -1,17 +1,15 @@
 import { getCardType, typeCheck } from '../_internals';
 
-const invalidAmex = (cvnLen, cardType) => cvnLen === 4 && cardType !== 'amex';
+const invalidAmex = (cvn, cardType) => cvn.length === 4 && cardType !== 'amex';
 
-const invalidNorm = (cvnLen, cardType) => cvnLen === 3 && cardType === 'amex';
+const invalidNorm = (cvn, cardType) => cvn.length === 3 && cardType === 'amex';
 
 const match = (cvn, type) => {
-  const len = cvn.length;
-
-  if (invalidAmex(len, type)) {
+  if (invalidAmex(cvn, type)) {
     return false;
   }
 
-  if (invalidNorm(len, type)) {
+  if (invalidNorm(cvn, type)) {
     return false;
   }
 

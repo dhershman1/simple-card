@@ -8,14 +8,17 @@ const allValid = (number, cvn, expired) =>
   number.isValid && cvn.isValid && expired.isValid;
 
 // Builds out our nice readable object
-const organizeResults = (number, cvn, expired) => {
+const validation = ({ number, cvn, date }) => {
+  const numberRes = validNumber(number);
+  const cvnRes = validCVN(cvn);
+  const dateRes = validDate(date);
   const matches = validMatch(cvn, number);
 
   return {
-    isValid: allValid(number, cvn, expired) && matches,
-    cardType: number.info,
-    cvnType: cvn.info,
-    expired: expired.info,
+    isValid: allValid(numberRes, cvnRes, dateRes) && matches,
+    cardType: numberRes.cardType,
+    cvnType: cvnRes.cvnType,
+    isExpired: dateRes.isExpired,
     info: !matches ? 'CVN does not match the found card type' : ''
   };
 };
@@ -39,7 +42,7 @@ const simpleCard = card => {
     throw new TypeError('Must send full card object to run full validation');
   }
 
-  return organizeResults(validNumber(card.number), validCVN(card.cvn), validDate(card.date));
+  return validation(card);
 };
 
 export default simpleCard;

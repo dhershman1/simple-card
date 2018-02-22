@@ -24,8 +24,8 @@ const luhnChk = value => { // eslint-disable-line complexity
  * @return {Object} An object containing a isValid boolean and some info
  *
  * @example
- * number('4111111111111111'); // => { isValid: true, info: 'visa' }
- * number('4444'); // => { isValid: false, info: 'Invalid Card Number' }
+ * number('4111111111111111'); // => { isValid: true, cardType: 'visa' }
+ * number('4444'); // => { isValid: false, cardType: 'Invalid Card Number' }
  */
 const cNumber = card => {
   if (!typeCheck(card)) {
@@ -37,7 +37,7 @@ const cNumber = card => {
 
   return {
     isValid: valid,
-    info: valid ? getCardType(sanitizedNumber) : 'Invalid Card Number'
+    cardType: valid ? getCardType(sanitizedNumber) : 'Invalid Card Number'
   };
 };
 

@@ -4,17 +4,17 @@ import test from 'ava';
 const today = new Date();
 
 test('Test Date validation', t => {
-  const { isValid, info } = expired(`${today.getMonth() + 1}/${today.getFullYear}`);
+  const { isValid, isExpired } = expired(`${today.getMonth() + 1}/${today.getFullYear}`);
 
   t.true(isValid, 'Is a valid date');
-  t.is(info, 'Not Expired');
+  t.false(isExpired, 'Not Expired');
 });
 
 test('Returns as invalid when given expired date', t => {
-  const { isValid, info } = expired('01/17');
+  const { isValid, isExpired } = expired('01/17');
 
   t.false(isValid);
-  t.is(info, 'Is Expired');
+  t.true(isExpired, 'Is Expired');
 });
 
 test('Throws type error when not given correct type', t => {

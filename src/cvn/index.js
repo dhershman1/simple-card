@@ -1,15 +1,13 @@
 import { typeCheck } from '../_internals';
 
-const isNorm = cvn => (/[0-9]/).test(cvn) && cvn.length === 3;
-
-const isAmex = cvn => (/[0-9]/).test(cvn) && cvn.length === 4;
-
 const getCvnType = cvn => {
-  if (isNorm(cvn)) {
+  const len = cvn.length;
+
+  if (len === 3) {
     return 'norm';
   }
 
-  if (isAmex(cvn)) {
+  if (len === 4) {
     return 'amex';
   }
 
@@ -34,19 +32,20 @@ export default cvnCode => {
     throw new TypeError('cvn should be a string or number type');
   }
 
-  const sanatizedCVN = String(cvnCode).replace(/\W/g, '');
+  const results = {
+    isValid: false,
+    cvnType: 'Invalid CVN Code'
+  };
+  const sanitizedCVN = String(cvnCode).replace(/\D/g, '');
 
-  const type = getCvnType(sanatizedCVN);
+  const type = getCvnType(sanitizedCVN);
 
   if (type) {
     return {
       isValid: true,
-      info: type
+      cvnType: type
     };
   }
 
-  return {
-    isValid: false,
-    info: 'Invalid CVN Code'
-  };
+  return results;
 };
