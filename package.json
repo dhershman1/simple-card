@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "prepare": "rollup -c && node scripts/create-export.js && node scripts/docs.js",
+    "prepare": "npm run build && node scripts/create-export.js && node scripts/docs.js",
     "clean": "node scripts/clean.js",
     "docs": "node scripts/docs.js",
     "create": "node scripts/create-export.js",

@@ -5,7 +5,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const findEntries = () => {
   const results = {};
-  const paths = globby.sync(['src/*/index.js', '!src/_internals']);
+  const paths = globby.sync(['src/*/index.js', '!src/_internals/index.js']);
 
   paths.forEach(p => {
     const { name, dir } = path.parse(p);
