@@ -3,8 +3,6 @@
 
 # Simple Card
 
-A smaller surogate to my [simply_valid](https://github.com/dhershman1/simply_valid) module
-
 A simple credit card system that runs validation for credit cards it uses a luhn algorithm for number validation and has a solid array of numbers to find and validate card types against.
 
 ## Changelog
