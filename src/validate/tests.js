@@ -30,7 +30,6 @@ const validData = {
 test('Test visa setup', t => {
   const result = simpleCard(validData.visaCard);
 
-  t.truthy(result, 'Results came back');
   t.true(result.isValid, 'Card Number Valid');
   t.is(result.cardType, 'visa', 'Validated as a Visa card');
   t.is(result.cvnType, 'norm', 'Validated with a normal cvn');
@@ -41,7 +40,6 @@ test('Test visa setup', t => {
 test('Test discover setup', t => {
   const result = simpleCard(validData.discoverCard);
 
-  t.truthy(result, 'Results came back');
   t.true(result.isValid, 'Card Number Valid');
   t.is(result.cardType, 'discover', 'Validated as a Discover card');
   t.is(result.cvnType, 'norm', 'Validated with a normal cvn');
@@ -52,7 +50,6 @@ test('Test discover setup', t => {
 test('Test master card setup', t => {
   const result = simpleCard(validData.masterCard);
 
-  t.truthy(result, 'Results came back');
   t.true(result.isValid, 'Card Number Valid');
   t.is(result.cardType, 'master', 'Validated as a Master card');
   t.is(result.cvnType, 'norm', 'Validated with a normal cvn');
@@ -63,7 +60,6 @@ test('Test master card setup', t => {
 test('Test amex card setup', t => {
   const result = simpleCard(validData.amex);
 
-  t.truthy(result, 'Results came back');
   t.true(result.isValid, 'Card Number Valid');
   t.is(result.cardType, 'amex', 'Validated as a Amex card');
   t.is(result.cvnType, 'amex', 'Validated with a Amex cvn');
@@ -78,7 +74,6 @@ test('Test bad match CVN & Card', t => {
     date: currDate
   });
 
-  t.truthy(results);
   t.false(results.isValid);
   t.is(results.cvnType, 'amex', '4 digit cvv does not match a visa card');
   t.is(results.cardType, 'visa', 'It is a visa card');
@@ -93,7 +88,6 @@ test('Test bad match CVN & Visa default test number', t => {
     date: currDate
   });
 
-  t.truthy(results);
   t.false(results.isValid);
   t.is(results.cvnType, 'amex', '4 digit cvv does not match a visa card');
   t.is(results.cardType, 'visa', 'It is a visa card');
@@ -108,10 +102,17 @@ test('Test sanitize data', t => {
     date: currDate
   });
 
-  t.truthy(results);
   t.true(results.isValid);
   t.is(results.cvnType, 'norm', 'Valid CVN returned');
   t.is(results.cardType, 'visa', 'It is a visa card');
   t.falsy(results.expire, 'Card is not expired');
 
+});
+
+test('Throws type error when not given correct type', t => {
+  const err = t.throws(() => {
+    simpleCard('4111 1111 1111 1111');
+  }, TypeError);
+
+  t.is(err.message, 'Must send full card object to run full validation');
 });

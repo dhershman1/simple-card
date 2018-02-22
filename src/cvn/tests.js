@@ -2,26 +2,46 @@ import cvn from './index';
 import test from 'ava';
 
 test('Test CVN Normal', t => {
-  const results = cvn('334');
+  const { isValid, info } = cvn('334');
 
-  t.truthy(results);
-  t.truthy(results.isValid, 'Is a valid cvn');
-  t.is(results.info, 'norm', 'Returned as a normal cvn');
+  t.true(isValid, 'Is a valid cvn');
+  t.is(info, 'norm', 'Returned as a normal cvn');
 
 });
 
 test('Test CVN Amex', t => {
-  const results = cvn('3534');
+  const { isValid, info } = cvn('3534');
 
-  t.truthy(results);
-  t.truthy(results.isValid, 'Is a valid cvn');
-  t.is(results.info, 'amex', 'Returned as an amex cvn');
+  t.true(isValid, 'Is a valid cvn');
+  t.is(info, 'amex', 'Returned as an amex cvn');
 
 });
 
 test('Works with number types', t => {
-  const results = cvn(333);
+  const { isValid, info } = cvn(333);
 
-  t.true(results.isValid);
-  t.is(results.info, 'norm');
+  t.true(isValid);
+  t.is(info, 'norm');
+});
+
+test('Amex works with number types', t => {
+  const { isValid, info } = cvn(3333);
+
+  t.true(isValid);
+  t.is(info, 'amex');
+});
+
+test('Returns invalid with bad CVN code', t => {
+  const { isValid, info } = cvn('22');
+
+  t.false(isValid);
+  t.is(info, 'Invalid CVN Code');
+});
+
+test('Throws type error when not given correct type', t => {
+  const err = t.throws(() => {
+    cvn([]);
+  }, TypeError);
+
+  t.is(err.message, 'cvn should be a string or number type');
 });

@@ -17,3 +17,20 @@ test('Works with number types', t => {
 
   t.true(matches(333, 4111111111111111));
 });
+
+test('Throws type error when both arguments are not the correct type', t => {
+  const err = t.throws(() => {
+    matches([], {});
+  }, TypeError);
+
+  t.is(err.message, 'cvn and card number should be string or number types');
+});
+
+test('Throws type error when one of the arguments is not the correct type', t => {
+  const err = t.throws(() => {
+    matches(333, {});
+  }, TypeError);
+
+  t.is(err.message, 'cvn and card number should be string or number types');
+});
+

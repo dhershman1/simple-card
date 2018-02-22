@@ -33,7 +33,7 @@ const normalizeDate = date => {
  */
 const expired = date => {
   if (typeof date !== 'string') {
-    throw new TypeError('date is not the proper type String');
+    throw new TypeError('date should be a string type');
   }
 
   const currDate = generateDate();
