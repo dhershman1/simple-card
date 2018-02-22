@@ -34,5 +34,10 @@ export default (cvn, card) => {
     throw new TypeError('cvn and card number should be string or number types');
   }
 
-  return match(String(cvn).replace(/\W/g, ''), getCardType(String(card).replace(/\W/g, '')));
+  const matches = match(String(cvn).replace(/\W/g, ''), getCardType(String(card).replace(/\W/g, '')));
+
+  return {
+    isValid: matches,
+    match: !matches ? 'cvn does not match card type' : 'card type matches cvn'
+  };
 };

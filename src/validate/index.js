@@ -3,24 +3,33 @@ import validDate from '../expired';
 import validMatch from '../matches';
 import validNumber from '../number';
 
-// Go through and make sure every validation result came back valid
-const allValid = (number, cvn, expired) =>
-  number.isValid && cvn.isValid && expired.isValid;
 
 // Builds out our nice readable object
 const validation = ({ number, cvn, date }) => {
-  const numberRes = validNumber(number);
-  const cvnRes = validCVN(cvn);
-  const dateRes = validDate(date);
-  const matches = validMatch(cvn, number);
+  const validationResults = [
+    validNumber(number),
+    validCVN(cvn),
+    validDate(date),
+    validMatch(cvn, number)
+  ];
+  let count = 0;
 
-  return {
-    isValid: allValid(numberRes, cvnRes, dateRes) && matches,
-    cardType: numberRes.cardType,
-    cvnType: cvnRes.cvnType,
-    isExpired: dateRes.isExpired,
-    info: !matches ? 'CVN does not match the found card type' : ''
-  };
+  const results = validationResults.reduce((acc, r) => {
+    const keys = Object.keys(r);
+    const currKey = keys[keys.length - 1];
+
+    if (!r.isValid) {
+      count++;
+    }
+
+    acc[currKey] = r[currKey];
+
+    return acc;
+  }, {});
+
+  results.isValid = count === 0;
+
+  return results;
 };
 
 /**

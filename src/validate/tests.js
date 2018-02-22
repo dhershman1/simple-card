@@ -77,7 +77,7 @@ test('Test bad match CVN & Card', t => {
   t.false(results.isValid);
   t.is(results.cvnType, 'amex', '4 digit cvv does not match a visa card');
   t.is(results.cardType, 'visa', 'It is a visa card');
-  t.is(results.info, 'CVN does not match the found card type');
+  t.is(results.match, 'cvn does not match card type');
 
 });
 
@@ -91,7 +91,7 @@ test('Test bad match CVN & Visa default test number', t => {
   t.false(results.isValid);
   t.is(results.cvnType, 'amex', '4 digit cvv does not match a visa card');
   t.is(results.cardType, 'visa', 'It is a visa card');
-  t.is(results.info, 'CVN does not match the found card type');
+  t.is(results.match, 'cvn does not match card type');
 
 });
 
