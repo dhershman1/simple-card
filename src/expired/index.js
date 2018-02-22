@@ -28,8 +28,9 @@ const normalizeDate = date => {
  * @return {Object} An object containing a isValid boolean and some info
  *
  * @example
- * expired('04/20'); // => { isValid: true, info: 'Not Expired' }
- * expired('01/17'); // => { isValid: false, info: 'Is Expired' }
+ * // Assuming "currDate" is a variable that holds the current date in a XX/XX format
+ * expired(currDate); // => { isValid: true, isExpired: false }
+ * expired('01/18'); // => { isValid: false, isExpired: true }
  */
 const expired = date => {
   if (typeof date !== 'string') {

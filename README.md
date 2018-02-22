@@ -86,7 +86,7 @@ const badCardObj = {
   number: '4111111111111111',
   cvn: '3432',
   date: currentDate // A simple var which is a string for the current date
-}
+};
 
 validate(badCardObj); // => { isValid: false, cardType: 'visa', cvnType: 'norm', expired: 'Not Expired', info: 'CVN does not match the found card type' }
 

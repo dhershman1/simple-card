@@ -25,7 +25,9 @@ const luhnChk = value => { // eslint-disable-line complexity
  *
  * @example
  * number('4111111111111111'); // => { isValid: true, cardType: 'visa' }
- * number('4444'); // => { isValid: false, cardType: 'Invalid Card Number' }
+ * number(4111111111111111); // => { isValid: true, cardType: 'visa' }
+ * number('33222123'); // => { isValid: false, cardType: 'Invalid Card Number' }
+ * number(33222123); // => { isValid: false, cardType: 'Invalid Card Number' }
  */
 const cNumber = card => {
   if (!typeCheck(card)) {

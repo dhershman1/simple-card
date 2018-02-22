@@ -23,9 +23,12 @@ const getCvnType = cvn => {
  * @return {Object} An object containing a isValid boolean and some info
  *
  * @example
- * cvn('333'); // => { isValid: true, info: 'norm' }
- * cvn('3333'); // => { isValid: true, info: 'amex' }
- * cvn('33433'); // => { isValid: false, info: 'Invalid CVN Code' }
+ * cvn('333'); // => { isValid: true, cvnType: 'norm' }
+ * cvn(333); // => { isValid: true, cvnType: 'norm' }
+ * cvn('4444'); // => { isValid: true, cvnType: 'amex' }
+ * cvn(4444); // => { isValid: true, cvnType: 'amex' }
+ * cvn('55555'); // => { isValid: false, cvnType: 'Invalid CVN Code' }
+ * cvn(55555); // => { isValid: false, cvnType: 'Invalid CVN Code' }
  */
 export default cvnCode => {
   if (!typeCheck(cvnCode)) {
