@@ -4,7 +4,7 @@ import test from 'ava';
 const today = new Date();
 
 test('Test Date validation', t => {
-  const { isValid, isExpired } = expired(`${today.getMonth() + 1}/${today.getFullYear}`);
+  const { isValid, isExpired } = expired(`${today.getMonth() + 1}/${today.getFullYear()}`);
 
   t.true(isValid, 'Is a valid date');
   t.false(isExpired, 'Not Expired');
@@ -31,4 +31,11 @@ test('Throws type error when given date object', t => {
   }, TypeError);
 
   t.is(err.message, 'date should be a string type');
+});
+
+test('Throws type error when given date object', t => {
+  const results = expired('21/21');
+
+  t.true(results.isExpired);
+  t.false(results.isValid);
 });

@@ -1,6 +1,6 @@
 {
   "name": "simple-card",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "a simple plug and play credit card validation library using the lugn algorithm",
   "main": "simple-card.min.js",
   "directories": {

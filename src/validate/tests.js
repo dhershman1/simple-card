@@ -2,7 +2,7 @@ import simpleCard from './index';
 import test from 'ava';
 
 const today = new Date();
-const currDate = `${today.getMonth() + 1}/${today.getFullYear}`;
+const currDate = `${today.getMonth() + 1}/${today.getFullYear()}`;
 
 const validData = {
   visaCard: {

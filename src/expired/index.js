@@ -39,7 +39,7 @@ const expired = date => {
 
   const currDate = generateDate();
   const expireDate = new Date(normalizeDate(date));
-  const isExpired = currDate > expireDate;
+  const isExpired = !isNaN(expireDate) ? currDate > expireDate : true;
 
   return {
     isValid: !isExpired,

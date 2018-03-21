@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.0.1
+
+- Fixed all unit tests to actually get full year
+- Fixed expired functionality to be able to handle invalid dates
+
 ## v2.0.0
 
 #### Breaking Changes
