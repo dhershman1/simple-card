@@ -2,12 +2,15 @@
 
 ## v2.1.0
 
+**Note this is mainly a huge architecture upgrade so the library will still work the same**
+
 - Converted linter to `standardjs` instead of `eslint`
 - Flattened out the files so src is a folder of js files now with internals being a folder of internal js files
 - Moved tests into their own folder at root level
 - Enhanced backend automation scripts for better performance
 - Brought all dev dependencies up to date
 - Swapped out `webpack` in favor of `rollup`
+- Added a `simple-card.js` which can be used in dev instances to get better error logs
 
 ## v2.0.1
 
