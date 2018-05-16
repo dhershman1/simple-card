@@ -1,5 +1,7 @@
-[![Build Status](https://travis-ci.org/dhershman1/simple-card.svg?branch=master)](https://travis-ci.org/dhershman1/simple-card)
-[![npm](https://img.shields.io/npm/v/simple-card.svg?style=flat)](https://www.npmjs.com/package/simple-card) [![dependencies Status](https://david-dm.org/dhershman1/simple-card/status.svg)](https://david-dm.org/dhershman1/simple-card) [![devDependencies Status](https://david-dm.org/dhershman1/simple-card/dev-status.svg)](https://david-dm.org/dhershman1/simple-card?type=dev)
+[![npm](https://img.shields.io/npm/v/simple-card.svg?style=flat-square)](https://www.npmjs.com/package/simple-card)
+[![David](https://img.shields.io/david/dhershman1/simple-card.svg?style=flat-square)](https://david-dm.org/dhershman1/simple-card)
+[![David](https://img.shields.io/david/dev/dhershman1/simple-card.svg?style=flat-square)](https://david-dm.org/dhershman1/simple-card?type=dev)
+[![Travis](https://img.shields.io/travis/dhershman1/simple-card.svg?style=flat-square)](https://travis-ci.org/dhershman1/simple-card)
 
 # Simple Card
 
@@ -15,21 +17,21 @@ Simple Card is a plug and play module, `import`, `require`, or even `script` tag
 
 Standard JS
 ```js
-import simpleCard from 'simple-card';
+import { validate } from 'simple-card';
 
-simpleCard.validate(data);
+validate(data);
 ```
 
 CommonJS
 ```js
-const simpleCard = require('simple-card');
+const { validate } = require('simple-card');
 
-simpleCard.validate(data);
+validate(data);
 ```
 
 Browser
 ```html
-<script src="/path/to/simple-card.umd.js"></script>
+<script src="/path/to/simple-card.min.js"></script>
 <script>
 	simpleCard.validate(data);
 </script>
@@ -37,7 +39,7 @@ Browser
 
 ## Documentation
 
-You can find most of the documentation for simple card here: http://www.dusty.codes/simple-card
+You can find most of the documentation for simple card here: https://www.dusty.codes/simple-card
 
 ## Methods
 
@@ -63,11 +65,8 @@ Returns an object with an `isValid` and several other info props with card infor
 - `isValid` - `Boolean`: The Boolean whether or not the value passed the validation
 - `cardType` - `String`: The found card type
 - `cvnType` - `String`: The found CVN type
-- `expired` - `String`: A simple message on if the card is expired or not
-- `info` - `String`: **Only has a string if what failed wasn't a rule**
-    - Possible Values:
-      - `'CVN does not match the found card type'`
-      - `''` (If it passed, or if it was a validation rule that failed)
+- `isExpired` - `Boolean`: Boolean which depends on if the card was expired or not
+- `match` - `String`: A simple string which states if the cvn matched the card number or not
 
 #### Usage
 
