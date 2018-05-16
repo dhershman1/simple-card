@@ -27,10 +27,14 @@ const match = (cvn, type) => {
  * @return {Boolean} A boolean based on if the match is valid or not
  *
  * @example
+ *
  * matches('333', '4111111111111111'); // => { isValid: true, match: 'card type matches cvn' }
  * matches(333, 4111111111111111); // => { isValid: true, match: 'card type matches cvn' }
+ *
+ * // Assuming that amexCardNumber is defined as an American Express Credit Card Number
  * matches('4444', amexCardNumber); // => { isValid: true, match: 'card type matches cvn' }
  * matches(4444, amexCardNumber); // => { isValid: true, match: 'card type matches cvn' }
+ *
  * matches('4444', '4111111111111111'); // => { isValid: false, match: 'cvn does not match card type' }
  * matches(4444, 4111111111111111); // => { isValid: false, match: 'cvn does not match card type' }
  */
