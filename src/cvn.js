@@ -1,18 +1,18 @@
-import { typeCheck } from '../_internals';
+import typeCheck from './_internals/typeCheck'
 
 const getCvnType = cvn => {
-  const len = cvn.length;
+  const len = cvn.length
 
   if (len === 3) {
-    return 'norm';
+    return 'norm'
   }
 
   if (len === 4) {
-    return 'amex';
+    return 'amex'
   }
 
-  return false;
-};
+  return false
+}
 
 /**
  * @name cvn
@@ -32,23 +32,23 @@ const getCvnType = cvn => {
  */
 export default cvnCode => {
   if (!typeCheck(cvnCode)) {
-    throw new TypeError('cvn should be a string or number type');
+    throw new TypeError('cvn should be a string or number type')
   }
 
   const results = {
     isValid: false,
     cvnType: 'Invalid CVN Code'
-  };
-  const sanitizedCVN = String(cvnCode).replace(/\D/g, '');
+  }
+  const sanitizedCVN = String(cvnCode).replace(/\D/g, '')
 
-  const type = getCvnType(sanitizedCVN);
+  const type = getCvnType(sanitizedCVN)
 
   if (type) {
     return {
       isValid: true,
       cvnType: type
-    };
+    }
   }
 
-  return results;
-};
+  return results
+}

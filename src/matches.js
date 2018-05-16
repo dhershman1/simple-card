@@ -1,20 +1,21 @@
-import { getCardType, typeCheck } from '../_internals';
+import getCardType from './_internals/getCardType'
+import typeCheck from './_internals/typeCheck'
 
-const invalidAmex = (cvn, cardType) => cvn.length === 4 && cardType !== 'amex';
+const invalidAmex = (cvn, cardType) => cvn.length === 4 && cardType !== 'amex'
 
-const invalidNorm = (cvn, cardType) => cvn.length === 3 && cardType === 'amex';
+const invalidNorm = (cvn, cardType) => cvn.length === 3 && cardType === 'amex'
 
 const match = (cvn, type) => {
   if (invalidAmex(cvn, type)) {
-    return false;
+    return false
   }
 
   if (invalidNorm(cvn, type)) {
-    return false;
+    return false
   }
 
-  return true;
-};
+  return true
+}
 
 /**
  * @name matches
@@ -35,13 +36,13 @@ const match = (cvn, type) => {
  */
 export default (cvn, card) => {
   if (!typeCheck(cvn) || !typeCheck(card)) {
-    throw new TypeError('cvn and card number should be string or number types');
+    throw new TypeError('cvn and card number should be string or number types')
   }
 
-  const matches = match(String(cvn).replace(/\W/g, ''), getCardType(String(card).replace(/\W/g, '')));
+  const matches = match(String(cvn).replace(/\W/g, ''), getCardType(String(card).replace(/\W/g, '')))
 
   return {
     isValid: matches,
     match: !matches ? 'cvn does not match card type' : 'card type matches cvn'
-  };
-};
+  }
+}

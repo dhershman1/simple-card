@@ -1,23 +1,23 @@
 const fullYear = year => {
   if (year.length === 2) {
-    return `20${year}`;
+    return `20${year}`
   }
 
-  return year;
-};
+  return year
+}
 
 const generateDate = () => {
-  const dateObj = new Date();
+  const dateObj = new Date()
 
-  return new Date(`${dateObj.getMonth() + 1}/1/${dateObj.getFullYear()}`);
-};
+  return new Date(`${dateObj.getMonth() + 1}/1/${dateObj.getFullYear()}`)
+}
 
 const normalizeDate = date => {
-  const cleanDate = date.replace(/\s/g, '');
-  const splitDate = cleanDate.split(/\W/g);
+  const cleanDate = date.replace(/\s/g, '')
+  const splitDate = cleanDate.split(/\W/g)
 
-  return `${splitDate[0]}/1/${fullYear(splitDate[1])}`;
-};
+  return `${splitDate[0]}/1/${fullYear(splitDate[1])}`
+}
 
 /**
  * @name expired
@@ -34,17 +34,17 @@ const normalizeDate = date => {
  */
 const expired = date => {
   if (typeof date !== 'string') {
-    throw new TypeError('date should be a string type');
+    throw new TypeError('date should be a string type')
   }
 
-  const currDate = generateDate();
-  const expireDate = new Date(normalizeDate(date));
-  const isExpired = !isNaN(expireDate) ? currDate > expireDate : true;
+  const currDate = generateDate()
+  const expireDate = new Date(normalizeDate(date))
+  const isExpired = !isNaN(expireDate) ? currDate > expireDate : true
 
   return {
     isValid: !isExpired,
     isExpired
-  };
-};
+  }
+}
 
-export default expired;
+export default expired

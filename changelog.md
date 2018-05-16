@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.1.0
+
+- Converted linter to `standardjs` instead of `eslint`
+- Flattened out the files so src is a folder of js files now with internals being a folder of internal js files
+- Moved tests into their own folder at root level
+- Enhanced backend automation scripts for better performance
+- Brought all dev dependencies up to date
+- Swapped out `webpack` in favor of `rollup`
+
 ## v2.0.1
 
 - Fixed all unit tests to actually get full year

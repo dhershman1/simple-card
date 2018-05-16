@@ -1,25 +1,30 @@
-const path = require('path');
-const fs = require('fs');
-const del = require('del');
+const path = require('path')
+const fs = require('fs')
+const del = require('del')
 
-const fileList = fs.readdirSync(path.join(__dirname, '..'));
+const fileList = fs.readdirSync(path.join(__dirname, '..'))
 
 const ignoredFiles = [
-  '.git',
-  '.gitignore',
-  '.npmignore',
-  '.eslintignore',
-  'node_modules',
-  'src',
-  'scripts',
-  '.babelrc'
-];
+  'docs',
+  'rollup.config',
+  'rollup.split'
+]
 const results = fileList.filter(f => {
-  const { ext, name } = path.parse(f);
+  const { ext, name } = path.parse(f)
 
-  return !ext && ignoredFiles.indexOf(name) === -1;
-});
+  if (ignoredFiles.indexOf(name) === -1 && ext === '.js') {
+    console.log(`Removing: ${name}`)
 
-del(results).then(() => {
-  console.info('Finished Cleaning Up');
-});
+    return true
+  }
+
+  return false
+})
+
+if (!results.length) {
+  console.log('Nothing to remove...')
+} else {
+  del(results).then(() => {
+    console.info('Finished Cleaning Up')
+  })
+}
