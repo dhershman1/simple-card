@@ -1,5 +1,5 @@
 import expired from '../src/expired'
-import test from 'ava'
+import test from 'tape'
 
 const today = new Date()
 
@@ -8,6 +8,7 @@ test('Test Date validation', t => {
 
   t.true(isValid, 'Is a valid date')
   t.false(isExpired, 'Not Expired')
+  t.end()
 })
 
 test('Returns as invalid when given expired date', t => {
@@ -15,22 +16,25 @@ test('Returns as invalid when given expired date', t => {
 
   t.false(isValid)
   t.true(isExpired, 'Is Expired')
+  t.end()
 })
 
 test('Throws type error when not given correct type', t => {
-  const err = t.throws(() => {
+  try {
     expired([])
-  }, TypeError)
-
-  t.is(err.message, 'date should be a string type')
+  } catch (err) {
+    t.is(err.message, 'date should be a string type')
+    t.end()
+  }
 })
 
 test('Throws type error when given date object', t => {
-  const err = t.throws(() => {
+  try {
     expired(today)
-  }, TypeError)
-
-  t.is(err.message, 'date should be a string type')
+  } catch (err) {
+    t.is(err.message, 'date should be a string type')
+    t.end()
+  }
 })
 
 test('Handles invalid date string', t => {
@@ -38,4 +42,5 @@ test('Handles invalid date string', t => {
 
   t.true(results.isExpired)
   t.false(results.isValid)
+  t.end()
 })

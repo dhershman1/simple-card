@@ -2,6 +2,7 @@
 [![David](https://img.shields.io/david/dhershman1/simple-card.svg?style=flat-square)](https://david-dm.org/dhershman1/simple-card)
 [![David](https://img.shields.io/david/dev/dhershman1/simple-card.svg?style=flat-square)](https://david-dm.org/dhershman1/simple-card?type=dev)
 [![Travis](https://img.shields.io/travis/dhershman1/simple-card.svg?style=flat-square)](https://travis-ci.org/dhershman1/simple-card)
+[![Coverage Status](https://img.shields.io/coveralls/github/dhershman1/simple-card.svg?style=flat-square)](https://coveralls.io/github/dhershman1/simple-card?branch=master)
 
 # Simple Card
 

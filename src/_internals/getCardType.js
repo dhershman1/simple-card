@@ -26,6 +26,4 @@ export default ccNumber => {
       return cardType
     }
   }
-
-  return false
 }

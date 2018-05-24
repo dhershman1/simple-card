@@ -1,5 +1,5 @@
 import simpleCard from '../src/validate'
-import test from 'ava'
+import test from 'tape'
 
 const today = new Date()
 const currDate = `${today.getMonth() + 1}/${today.getFullYear()}`
@@ -34,6 +34,7 @@ test('Test visa setup', t => {
   t.is(result.cardType, 'visa', 'Validated as a Visa card')
   t.is(result.cvnType, 'norm', 'Validated with a normal cvn')
   t.false(result.isExpired, 'Not Expired')
+  t.end()
 })
 
 test('Test discover setup', t => {
@@ -43,6 +44,7 @@ test('Test discover setup', t => {
   t.is(result.cardType, 'discover', 'Validated as a Discover card')
   t.is(result.cvnType, 'norm', 'Validated with a normal cvn')
   t.false(result.isExpired, 'Not Expired')
+  t.end()
 })
 
 test('Test master card setup', t => {
@@ -52,6 +54,7 @@ test('Test master card setup', t => {
   t.is(result.cardType, 'master', 'Validated as a Master card')
   t.is(result.cvnType, 'norm', 'Validated with a normal cvn')
   t.false(result.isExpired, 'Not Expired')
+  t.end()
 })
 
 test('Test amex card setup', t => {
@@ -61,6 +64,7 @@ test('Test amex card setup', t => {
   t.is(result.cardType, 'amex', 'Validated as a Amex card')
   t.is(result.cvnType, 'amex', 'Validated with a Amex cvn')
   t.false(result.isExpired, 'Not Expired')
+  t.end()
 })
 
 test('Test bad match CVN & Card', t => {
@@ -74,6 +78,7 @@ test('Test bad match CVN & Card', t => {
   t.is(results.cvnType, 'amex', '4 digit cvv does not match a visa card')
   t.is(results.cardType, 'visa', 'It is a visa card')
   t.is(results.match, 'cvn does not match card type')
+  t.end()
 })
 
 test('Test bad match CVN & Visa default test number', t => {
@@ -87,6 +92,7 @@ test('Test bad match CVN & Visa default test number', t => {
   t.is(results.cvnType, 'amex', '4 digit cvv does not match a visa card')
   t.is(results.cardType, 'visa', 'It is a visa card')
   t.is(results.match, 'cvn does not match card type')
+  t.end()
 })
 
 test('Test sanitize data', t => {
@@ -100,12 +106,14 @@ test('Test sanitize data', t => {
   t.is(results.cvnType, 'norm', 'Valid CVN returned')
   t.is(results.cardType, 'visa', 'It is a visa card')
   t.false(results.isExpired, 'Card is not expired')
+  t.end()
 })
 
 test('Throws type error when not given correct type', t => {
-  const err = t.throws(() => {
+  try {
     simpleCard('4111 1111 1111 1111')
-  }, TypeError)
-
-  t.is(err.message, 'Must send full card object to run full validation')
+  } catch (err) {
+    t.is(err.message, 'Must send full card object to run full validation')
+    t.end()
+  }
 })
