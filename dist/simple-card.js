@@ -148,7 +148,6 @@
         return cardType;
       }
     }
-    return false;
   });
 
   var invalidAmex = function invalidAmex(cvn, cardType) {
