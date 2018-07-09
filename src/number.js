@@ -19,6 +19,7 @@ const luhnChk = value => {
 /**
  * @name number
  * @since v2.0.0
+ * @category Function
  * @description
  * Validates that the card number is an actual valid number with a luhn algorithm. As well as finds the cards type
  * @param {String|Number} card The string card we want to validate

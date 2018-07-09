@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.1.1
+
+## Improved
+
+- Added a category tag to the documentation
+- Tweaked the automated scripts to make sure the main documentation site stays up to date a lot faster and easier
+
 ## v2.1.0
 
 **Note this is mainly a huge architecture upgrade so the library will still work the same**

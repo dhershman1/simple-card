@@ -1,44 +1,42 @@
 const fs = require('fs')
-const path = require('path')
+const globby = require('globby')
 const jsDocParser = require('jsdoc-to-markdown')
-const ignoredFiles = ['_internals', 'index.js']
-const { version } = require('../package.json')
+const { name, version, description } = require('../package.json')
 
 const listFns = () => {
-  const files = fs.readdirSync(path.join(process.cwd(), 'src'))
+  const files = globby.sync(['src/*.js', '!src/index.js', '!src/_internals'])
 
   return files
-    .filter(file => (/^[^._]/).test(file) && !ignoredFiles.includes(file))
-    .map(file => `./src/${file}`)
+    .map(file => `./${file}`)
 }
 
-const generateUsage = name => ({
+const generateUsage = fnName => ({
   'commonjs': {
     title: 'CommonJs',
-    code: `const ${name} = require('simple-card/${name}')`
+    code: `const ${fnName} = require('simple-card/${fnName}')`
   },
   'standard': {
     title: 'Standard',
-    code: `import ${name} from 'simple-card/${name}'`
+    code: `import ${fnName} from 'simple-card/${fnName}'`
   },
   'cdn': {
     title: 'CDN',
-    code: `<script src="https://cdn.jsdelivr.net/npm/simple-card@${version}/${name}.js"></script>`
+    code: `<script src="https://cdn.jsdelivr.net/npm/simple-card@${version}/${fnName}.js"></script>`
   },
   'browser': {
     title: 'Browser',
-    code: `<script src="path/to/simple-card/${name}/index.js"></script>`
+    code: `<script src="path/to/simple-card/${fnName}/index.js"></script>`
   }
 })
 
-const generateSyntax = (name, args) => {
+const generateSyntax = (fnName, args) => {
   if (!args) {
     return ''
   }
 
-  const argsStr = args.map(a => a.optional ? `[${a.name}]` : a.name).join(', ') // eslint-disable-line
+  const argsStr = args.map(a => a.optional ? `[${a.fnName}]` : a.fnName).join(', ') // eslint-disable-line
 
-  return `${name}(${argsStr})`
+  return `${fnName}(${argsStr})`
 }
 
 jsDocParser.getTemplateData({
@@ -46,7 +44,8 @@ jsDocParser.getTemplateData({
   'no-cache': true
 }).then(data => {
   const results = data.map(d => ({
-    since: d.since ? d.since : 'Unknown',
+    since: d.since || '0.0.0',
+    category: d.category || 'Unknown',
     title: d.name,
     desc: d.description,
     examples: d.examples,
@@ -56,9 +55,10 @@ jsDocParser.getTemplateData({
     usage: generateUsage(d.name)
   }))
 
-  fs.writeFile('docs.js', `module.exports = ${JSON.stringify(results)}`, writeErr => {
-    if (writeErr) {
-      throw writeErr
-    }
-  })
+  fs.writeFileSync('info.json', JSON.stringify({
+    name,
+    version,
+    description,
+    docs: results
+  }))
 })

@@ -22,6 +22,7 @@ const normalizeDate = date => {
 /**
  * @name expired
  * @since v2.0.0
+ * @category Function
  * @description
  * Validates that the string date passed in is indeed a valid date and not an old one
  * @param {String} date The string date we want to validate

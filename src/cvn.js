@@ -17,6 +17,7 @@ const getCvnType = cvn => {
 /**
  * @name cvn
  * @since v2.0.0
+ * @category Function
  * @description
  * Validates that the string cvn passed in is a valid cvn number
  * @param {String|Number} cvnCode The string cvn we want to validate

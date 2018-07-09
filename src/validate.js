@@ -34,6 +34,7 @@ const validation = ({ number, cvn, date }) => {
 /**
  * @name validate
  * @since v2.0.0
+ * @category Function
  * @description Validates a credit card object comparing and validating each piece of data on the card passed in
  * @param {Object} card The card Object that we wish to be validated
  * @returns {Object} Returns an object of information about the test and whether or not it passed

@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel'
 import filesize from 'rollup-plugin-filesize'
 import globby from 'globby'
 import path from 'path'
-import uglify from 'rollup-plugin-uglify'
+import { uglify } from 'rollup-plugin-uglify'
 
 const buildEntry = () => {
   const results = []

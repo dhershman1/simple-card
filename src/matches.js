@@ -20,6 +20,7 @@ const match = (cvn, type) => {
 /**
  * @name matches
  * @since v2.0.0
+ * @category Function
  * @description
  * Validates that the card type (generated from the card number) matches and is valid with the cvn provided
  * @param {String|Number} cvn The string cvn we want to validate
