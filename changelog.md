@@ -2,7 +2,7 @@
 
 ## v2.1.1
 
-## Improved
+### Improved
 
 - Added a category tag to the documentation
 - Tweaked the automated scripts to make sure the main documentation site stays up to date a lot faster and easier
