@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.2
+
+- Hot fix for documentation bug
+
 ## v2.1.1
 
 ### Improved
