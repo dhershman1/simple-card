@@ -40,7 +40,7 @@ const simpleCard = card => {
     validMatch(card.cvn, card.number)
   ]
 
-  return assign(...validationResults, { isValid: every(x => x.isValid, validationResults) })
+  return assign({}, ...validationResults, { isValid: every(x => x.isValid, validationResults) })
 }
 
 export default simpleCard
