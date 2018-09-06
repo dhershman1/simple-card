@@ -18,11 +18,33 @@ const buildEntry = () => {
         uglify(),
         filesize()
       ],
+      external: [
+        'kyanite/type',
+        'kyanite/and',
+        'kyanite/not',
+        'kyanite/or',
+        'kyanite/assign',
+        'kyanite/every',
+        'kyanite/find',
+        'kyanite/range',
+        'kyanite/some'
+      ],
       output: {
         dir: './',
         file: `${name}.js`,
         format: 'umd',
-        name: name
+        name: name,
+        globals: {
+          'kyanite/type': 'type',
+          'kyanite/and': 'and',
+          'kyanite/not': 'not',
+          'kyanite/or': 'or',
+          'kyanite/assign': 'assign',
+          'kyanite/every': 'every',
+          'kyanite/find': 'find',
+          'kyanite/range': 'range',
+          'kyanite/some': 'some'
+        }
       }
     }
 
