@@ -1,5 +1,30 @@
 # Changelog
 
+## v2.2.0
+
+### New
+
+- Added unit tests for internal functions
+
+### Improved
+
+- Added my Kyanite Library to make use of utilities
+- Fixed current linter issues
+- Removed slow `for in` loop for getting the card type
+- Made expired functionality no longer statically use `20` if only 2 digits are passed in for a year
+- Heavy optimizations to `cvn` functionality
+  - Removed unneeded processing
+  - Cleaned up code base
+  - Removed unneeded code
+- Optimizations to `match` functionality
+- Tweaked Luhn Algorithm for easier catch on non-number cards
+- Code optimizations within the number validation function
+- Re wrote card type functionality from the ground up, improving performance
+- Rebuilt validation flow taking advantage of the Kyanite library
+- Re structured the flow of the expired functionality
+- Updated all dev dependencies
+- Better sanitization of data, cleaning up non-digits from data strings
+
 ## v2.1.2
 
 - Hot fix for documentation bug

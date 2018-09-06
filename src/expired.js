@@ -1,22 +1,11 @@
+import type from 'kyanite/type'
+
 const fullYear = year => {
   if (year.length === 2) {
-    return `20${year}`
+    return `${String(new Date().getFullYear()).slice(0, 2)}${year}`
   }
 
   return year
-}
-
-const generateDate = () => {
-  const dateObj = new Date()
-
-  return new Date(`${dateObj.getMonth() + 1}/1/${dateObj.getFullYear()}`)
-}
-
-const normalizeDate = date => {
-  const cleanDate = date.replace(/\s/g, '')
-  const splitDate = cleanDate.split(/\W/g)
-
-  return `${splitDate[0]}/1/${fullYear(splitDate[1])}`
 }
 
 /**
@@ -30,16 +19,17 @@ const normalizeDate = date => {
  *
  * @example
  * // Assuming "currDate" is a variable that holds the current date in a XX/XX format
- * expired(currDate); // => { isValid: true, isExpired: false }
- * expired('01/18'); // => { isValid: false, isExpired: true }
+ * expired(currDate) // => { isValid: true, isExpired: false }
+ * expired('01/18') // => { isValid: false, isExpired: true }
  */
 const expired = date => {
-  if (typeof date !== 'string') {
+  if (type(date) !== 'String') {
     throw new TypeError('date should be a string type')
   }
-
-  const currDate = generateDate()
-  const expireDate = new Date(normalizeDate(date))
+  const dateObj = new Date()
+  const [month, year] = date.replace(/\s/g, '').split(/\W/g)
+  const currDate = new Date(`${dateObj.getMonth() + 1}/1/${dateObj.getFullYear()}`)
+  const expireDate = new Date(`${month}/1/${fullYear(year)}`)
   const isExpired = !isNaN(expireDate) ? currDate > expireDate : true
 
   return {

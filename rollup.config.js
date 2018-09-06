@@ -10,10 +10,32 @@ export default [{
     uglify(),
     filesize()
   ],
+  external: [
+    'kyanite/type',
+    'kyanite/and',
+    'kyanite/not',
+    'kyanite/or',
+    'kyanite/assign',
+    'kyanite/every',
+    'kyanite/find',
+    'kyanite/range',
+    'kyanite/some'
+  ],
   output: {
     file: 'dist/simple-card.min.js',
     format: 'umd',
-    name: 'simpleCard'
+    name: 'simpleCard',
+    globals: {
+      'kyanite/type': 'type',
+      'kyanite/and': 'and',
+      'kyanite/not': 'not',
+      'kyanite/or': 'or',
+      'kyanite/assign': 'assign',
+      'kyanite/every': 'every',
+      'kyanite/find': 'find',
+      'kyanite/range': 'range',
+      'kyanite/some': 'some'
+    }
   }
 }, {
   input: './src/index.js',
@@ -22,9 +44,31 @@ export default [{
     cleanup(),
     filesize()
   ],
+  external: [
+    'kyanite/type',
+    'kyanite/and',
+    'kyanite/not',
+    'kyanite/or',
+    'kyanite/assign',
+    'kyanite/every',
+    'kyanite/find',
+    'kyanite/range',
+    'kyanite/some'
+  ],
   output: {
     file: 'dist/simple-card.js',
     format: 'umd',
-    name: 'simpleCard'
+    name: 'simpleCard',
+    globals: {
+      'kyanite/type': 'type',
+      'kyanite/and': 'and',
+      'kyanite/not': 'not',
+      'kyanite/or': 'or',
+      'kyanite/assign': 'assign',
+      'kyanite/every': 'every',
+      'kyanite/find': 'find',
+      'kyanite/range': 'range',
+      'kyanite/some': 'some'
+    }
   }
 }]

@@ -50,6 +50,14 @@ test('Throws type error when not given correct type', t => {
   }
 })
 
+test('Letter based card caught', t => {
+  const { isValid, cardType } = number('abcdefg')
+
+  t.false(isValid)
+  t.is(cardType, 'Invalid Card Number')
+  t.end()
+})
+
 test('Gives back string of invalid if it fails validation', t => {
   const { isValid, cardType } = number(4111222333444555)
 

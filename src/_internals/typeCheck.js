@@ -1,2 +1,5 @@
+import or from 'kyanite/or'
+import type from 'kyanite/type'
+
 // Type check for our passed in Data
-export default x => typeof x === 'string' || typeof x === 'number'
+export default x => or(type(x) === 'String', type(x) === 'Number')

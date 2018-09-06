@@ -1,21 +1,9 @@
+import and from 'kyanite/and'
+import not from 'kyanite/not'
+import or from 'kyanite/or'
+
 import getCardType from './_internals/getCardType'
 import typeCheck from './_internals/typeCheck'
-
-const invalidAmex = (cvn, cardType) => cvn.length === 4 && cardType !== 'amex'
-
-const invalidNorm = (cvn, cardType) => cvn.length === 3 && cardType === 'amex'
-
-const match = (cvn, type) => {
-  if (invalidAmex(cvn, type)) {
-    return false
-  }
-
-  if (invalidNorm(cvn, type)) {
-    return false
-  }
-
-  return true
-}
 
 /**
  * @name matches
@@ -29,25 +17,27 @@ const match = (cvn, type) => {
  *
  * @example
  *
- * matches('333', '4111111111111111'); // => { isValid: true, match: 'card type matches cvn' }
- * matches(333, 4111111111111111); // => { isValid: true, match: 'card type matches cvn' }
+ * matches('333', '4111111111111111') // => { isValid: true, match: 'card type matches cvn' }
+ * matches(333, 4111111111111111) // => { isValid: true, match: 'card type matches cvn' }
  *
  * // Assuming that amexCardNumber is defined as an American Express Credit Card Number
- * matches('4444', amexCardNumber); // => { isValid: true, match: 'card type matches cvn' }
- * matches(4444, amexCardNumber); // => { isValid: true, match: 'card type matches cvn' }
+ * matches('4444', amexCardNumber) // => { isValid: true, match: 'card type matches cvn' }
+ * matches(4444, amexCardNumber) // => { isValid: true, match: 'card type matches cvn' }
  *
- * matches('4444', '4111111111111111'); // => { isValid: false, match: 'cvn does not match card type' }
- * matches(4444, 4111111111111111); // => { isValid: false, match: 'cvn does not match card type' }
+ * matches('4444', '4111111111111111') // => { isValid: false, match: 'cvn does not match card type' }
+ * matches(4444, 4111111111111111) // => { isValid: false, match: 'cvn does not match card type' }
  */
 export default (cvn, card) => {
-  if (!typeCheck(cvn) || !typeCheck(card)) {
+  if (or(!typeCheck(cvn), !typeCheck(card))) {
     throw new TypeError('cvn and card number should be string or number types')
   }
 
-  const matches = match(String(cvn).replace(/\W/g, ''), getCardType(String(card).replace(/\W/g, '')))
+  const cvnLen = String(cvn).replace(/\D/g, '').length
+  const cardType = getCardType(String(card).replace(/\D/g, ''))
+  const isValid = not(or(and(cvnLen === 4, cardType !== 'amex'), and(cvnLen === 3, cardType === 'amex')))
 
   return {
-    isValid: matches,
-    match: !matches ? 'cvn does not match card type' : 'card type matches cvn'
+    isValid,
+    match: !isValid ? 'cvn does not match card type' : 'card type matches cvn'
   }
 }

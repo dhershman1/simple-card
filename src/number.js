@@ -10,7 +10,8 @@ const luhnChk = value => {
 
   while (len) {
     num = parseInt(value.charAt(--len), 10)
-    sum += (bit ^= 1) ? numArr[num] : num
+    bit ^= 1
+    sum += bit ? numArr[num] : num
   }
 
   return sum && sum % 10 === 0
@@ -26,22 +27,22 @@ const luhnChk = value => {
  * @return {Object} An object containing a isValid boolean and some info
  *
  * @example
- * number('4111111111111111'); // => { isValid: true, cardType: 'visa' }
- * number(4111111111111111); // => { isValid: true, cardType: 'visa' }
- * number('33222123'); // => { isValid: false, cardType: 'Invalid Card Number' }
- * number(33222123); // => { isValid: false, cardType: 'Invalid Card Number' }
+ * number('4111111111111111') // => { isValid: true, cardType: 'visa' }
+ * number(4111111111111111) // => { isValid: true, cardType: 'visa' }
+ * number('33222123') // => { isValid: false, cardType: 'Invalid Card Number' }
+ * number(33222123) // => { isValid: false, cardType: 'Invalid Card Number' }
  */
 const cNumber = card => {
   if (!typeCheck(card)) {
     throw new TypeError('number should be a string or number type')
   }
 
-  const sanitizedNumber = String(card).replace(/\W/g, '')
-  const valid = Boolean(luhnChk(sanitizedNumber))
+  const sanitized = String(card).replace(/\D/g, '')
+  const isValid = Boolean(luhnChk(sanitized))
 
   return {
-    isValid: valid,
-    cardType: valid ? getCardType(sanitizedNumber) : 'Invalid Card Number'
+    isValid,
+    cardType: isValid ? getCardType(sanitized) : 'Invalid Card Number'
   }
 }
 
