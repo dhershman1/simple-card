@@ -8,7 +8,7 @@ import validMatch from './matches'
 import validNumber from './number'
 
 /**
- * @name simpleCard
+ * @name validate
  * @since v2.0.0
  * @category Function
  * @description Validates a credit card object comparing and validating each piece of data on the card passed in
