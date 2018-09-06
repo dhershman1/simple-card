@@ -16,6 +16,7 @@
     "build:split": "rollup -c rollup.split.js",
     "test": "tape -r esm tests/*.js | tap-spec",
     "test:cov": "nyc npm test",
+    "cov": "nyc --reporter=html npm test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard --fix src/*.js"
   },

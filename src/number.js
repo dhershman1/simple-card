@@ -2,10 +2,6 @@ import getCardType from './_internals/getCardType'
 import typeCheck from './_internals/typeCheck'
 
 const luhnChk = value => {
-  if (/[^0-9-\s]+/.test(value)) {
-    return false
-  }
-
   const numArr = [0, 2, 4, 6, 8, 1, 3, 5, 7, 9]
   let len = value.length
   let bit = 1
