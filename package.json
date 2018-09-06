@@ -1,6 +1,6 @@
 {
   "name": "simple-card",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "A simple plug and play credit card validation library that uses the luhn algorithm",
   "main": "dist/simple-card.min.js",
   "directories": {
