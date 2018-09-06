@@ -2,11 +2,11 @@
 
 ## v2.2.0
 
-## New
+### New
 
 - Added unit tests for internal functions
 
-## Improved
+### Improved
 
 - Added my Kyanite Library to make use of utilities
 - Fixed current linter issues
